@@ -1,667 +1,423 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>DraftKings • Executive Poker Experience | Las Vegas</title>
-  <meta name="description" content="Cinematic DraftKings proposal — Venetian, Mob Museum & Distillery. 11 guests, May 20, 1–4pm. Private luxury, epic branding." />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Liftoff + DraftKings | The Crown & Cortex Experience</title>
+  <meta name="description" content="A cinematic co‑branded executive proposal for Liftoff.ai and DraftKings. Venetian, Mob Museum, Distillery. Poker, AI, and competitive edge.">
   <!-- FONTS & ICONS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-  <!-- UMD LIBRARIES -->
+  <!-- UMD: GSAP + Three.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
   <style>
-    /* ---------- RESET & VARIABLES ---------- */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    /* ----- RESET & DESIGN TOKENS (DK + LIFTOFF MERGE) ----- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --dk-black: #030503;
-      --dk-deep: #0A1C0A;
       --dk-green: #1FCC4A;
-      --dk-green-glow: #7CFF42;
-      --dk-accent: #25C34A;
-      --dk-card: rgba(8, 20, 8, 0.85);
-      --dk-border: rgba(31, 204, 74, 0.18);
+      --dk-glow: #7CFF42;
+      --liftoff-slate: #273143;
+      --liftoff-white: #FFFFFF;
+      --liftoff-blue: #1E88E5;
+      --liftoff-gold: #FFC107;
       --text-primary: #F0F5F0;
       --text-muted: #B0C7B0;
       --font-body: 'Inter', sans-serif;
       --font-display: 'Plus Jakarta Sans', sans-serif;
-      
-      --space-xs: clamp(0.5rem, 1.5vw, 0.75rem);
-      --space-sm: clamp(1rem, 2.5vw, 1.5rem);
-      --space-md: clamp(1.5rem, 4vw, 2.5rem);
-      --space-lg: clamp(2.5rem, 6vw, 4rem);
-      --space-xl: clamp(3.5rem, 8vw, 6rem);
-      
-      --radius-card: 1.5rem;
-      --radius-pill: 100px;
-      --shadow-glow: 0 0 30px rgba(31, 204, 74, 0.3);
-      --border-glow: 0 0 0 1px rgba(124, 255, 66, 0.2);
+      --space-sm: clamp(1rem, 3vw, 1.8rem);
+      --space-md: clamp(1.8rem, 5vw, 3rem);
+      --space-lg: clamp(3rem, 8vw, 5rem);
+      --radius-card: 2rem;
+      --border-glow: 0 0 0 1px rgba(31,204,74,0.25);
     }
-
     body {
       background-color: var(--dk-black);
       color: var(--text-primary);
       font-family: var(--font-body);
       line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
-
-    /* ---------- BACKGROUND CANVAS & EFFECTS ---------- */
-    #dk-canvas {
+    /* ----- BACKGROUND CANVAS (Three.js with DraftKings logo) ----- */
+    #bg-canvas {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.9;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
     }
-
-    .bg-noise {
-      position: fixed;
-      inset: 0;
-      background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4wMjUiIC8+PC9zdmc+');
-      pointer-events: none;
-      z-index: 1;
-      mix-blend-mode: overlay;
+    .bg-overlay {
+      position: fixed; inset: 0; pointer-events: none; z-index: 1;
+      background: radial-gradient(circle at 30% 40%, rgba(31,204,74,0.12) 0%, transparent 60%);
     }
-
-    .bg-glow {
-      position: fixed;
-      width: 80vw;
-      height: 80vw;
-      background: radial-gradient(circle at 30% 40%, rgba(31,204,74,0.15) 0%, transparent 60%);
-      border-radius: 50%;
-      filter: blur(120px);
-      z-index: 0;
-      pointer-events: none;
-      animation: floatGlow 18s infinite alternate ease-in-out;
-    }
-
-    .bg-glow.two {
-      background: radial-gradient(circle at 70% 70%, rgba(124,255,66,0.08) 0%, transparent 60%);
-      filter: blur(140px);
-      animation-duration: 24s;
-    }
-
-    @keyframes floatGlow {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(-5%, 8%) scale(1.2); }
-    }
-
-    /* ---------- MAIN LAYOUT ---------- */
+    /* ----- APP SHELL ----- */
     .app {
-      position: relative;
-      z-index: 5;
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 0 var(--space-sm);
+      position: relative; z-index: 5;
+      max-width: 1440px; margin: 0 auto; padding: 0 var(--space-sm);
     }
-
-    section {
-      position: relative;
-      padding: var(--space-xl) 0;
-      width: 100%;
-    }
-
+    section { padding: var(--space-lg) 0; width: 100%; }
     .full-bleed {
       margin-left: calc(-1 * var(--space-sm));
       margin-right: calc(-1 * var(--space-sm));
       padding-left: var(--space-sm);
       padding-right: var(--space-sm);
     }
-
-    /* ---------- TYPOGRAPHY ---------- */
-    h1, h2, h3 {
-      font-family: var(--font-display);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
+    /* ----- HEADER (CO‑BRANDED) ----- */
+    .co-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 0; border-bottom: 1px solid rgba(124,255,66,0.15);
+      backdrop-filter: blur(16px); position: sticky; top: 0; z-index: 50;
+      background: rgba(3,5,3,0.6); flex-wrap: wrap;
     }
-
-    h1 {
-      font-size: clamp(2.8rem, 8vw, 5rem);
-      font-weight: 800;
+    .logo-group {
+      display: flex; align-items: center; gap: 20px;
     }
-
-    h2 {
-      font-size: clamp(2rem, 5vw, 3.5rem);
+    .logo-item {
+      display: flex; align-items: center; gap: 8px;
     }
-
-    .kicker {
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.3em;
-      color: var(--dk-green-glow);
-      margin-bottom: var(--space-xs);
-      font-weight: 600;
-    }
-
-    .section-sub {
-      font-size: clamp(1rem, 3vw, 1.3rem);
-      color: var(--text-muted);
-      max-width: 720px;
-      margin-top: var(--space-sm);
-    }
-
-    /* ---------- HEADER ---------- */
-    .dk-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: var(--space-sm) 0;
-      border-bottom: 1px solid var(--dk-border);
-      backdrop-filter: blur(12px);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(3,5,3,0.7);
-    }
-
-    .dk-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .dk-logo-icon {
-      width: 36px;
-      height: 36px;
+    .logo-item img { height: 30px; width: auto; }
+    .dk-crown {
       background: var(--dk-green);
-      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2L2 7v10l10 5 10-5V7l-10-5z'/%3E%3C/svg%3E") no-repeat center;
-      mask-size: contain;
-      background: linear-gradient(145deg, #7CFF42, #1FCC4A);
+      mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5z"/></svg>') no-repeat center;
+      mask-size: contain; width: 32px; height: 32px;
     }
-
-    .dk-logo-text {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: 1.2rem;
-      letter-spacing: -0.02em;
+    .nav-links { display: flex; gap: 8px; }
+    .nav-btn {
+      background: transparent; border: none; color: var(--text-muted);
+      padding: 8px 14px; border-radius: 40px; font-weight: 600; cursor: pointer;
+      transition: all 0.2s; backdrop-filter: blur(4px);
     }
-    .dk-logo-text span { color: var(--dk-green); }
-
-    .dk-nav {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .dk-nav-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-weight: 600;
-      padding: 8px 14px;
-      border-radius: 40px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      backdrop-filter: blur(4px);
-    }
-
-    .dk-nav-btn:hover {
-      color: white;
-      background: rgba(31,204,74,0.15);
-    }
-
-    /* ---------- BUTTONS ---------- */
+    .nav-btn:hover { color: white; background: rgba(31,204,74,0.15); }
+    /* ----- BUTTONS ----- */
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 28px;
-      border-radius: 60px;
-      font-weight: 700;
-      font-size: 1rem;
-      text-decoration: none;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      border: 1px solid transparent;
-      cursor: pointer;
-      background: none;
-      color: inherit;
+      display: inline-flex; align-items: center; gap: 10px; padding: 12px 28px;
+      border-radius: 60px; font-weight: 700; text-decoration: none;
+      transition: all 0.3s; border: 1px solid transparent; cursor: pointer;
     }
-
     .btn-primary {
-      background: var(--dk-green);
-      color: #030503;
+      background: var(--dk-green); color: #030503;
       box-shadow: 0 12px 30px -8px rgba(31,204,74,0.5);
-      border: 1px solid rgba(255,255,255,0.2);
     }
-
-    .btn-primary:hover {
-      background: #32e05c;
-      transform: scale(1.02);
-      box-shadow: 0 20px 40px -8px #1FCC4A;
-    }
-
+    .btn-primary:hover { background: #32e05c; transform: scale(1.02); }
     .btn-outline {
-      border: 1.5px solid var(--dk-border);
-      color: white;
-      backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(255,255,255,0.2); color: white; backdrop-filter: blur(8px);
     }
-    .btn-outline:hover {
-      border-color: var(--dk-green);
-      background: rgba(31,204,74,0.1);
-    }
-
-    /* ---------- HERO ---------- */
+    .btn-outline:hover { border-color: var(--liftoff-blue); background: rgba(30,136,229,0.1); }
+    /* ----- HERO (DUAL BRAND) ----- */
     .hero-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: var(--space-lg);
-      align-items: center;
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--space-lg); align-items: center;
     }
-
-    .hero-badge {
-      background: rgba(31,204,74,0.12);
-      border-radius: 40px;
-      padding: 8px 18px;
-      display: inline-block;
-      border: 1px solid var(--dk-border);
-      backdrop-filter: blur(8px);
+    .kicker {
+      font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.3em;
+      color: var(--dk-glow); margin-bottom: 0.5rem; font-weight: 600;
     }
-
-    .hero-stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin: var(--space-md) 0;
+    h1 {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: clamp(2.5rem, 7vw, 4.5rem); line-height: 1.1;
     }
-
+    .hero-highlight {
+      background: linear-gradient(145deg, #FFFFFF, #7CFF42);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
     .stat-pill {
-      background: rgba(10,28,10,0.7);
-      backdrop-filter: blur(8px);
-      padding: 8px 20px;
-      border-radius: 60px;
-      border: 1px solid var(--dk-border);
-      font-weight: 500;
+      background: rgba(10,28,10,0.7); backdrop-filter: blur(8px);
+      padding: 8px 20px; border-radius: 60px; border: 1px solid var(--border-glow);
     }
-
-    .hero-media-stack {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-sm);
+    /* ----- LIFTOFF TRANSITION (MID‑PAGE EPIC) ----- */
+    .transition-zone {
+      position: relative; height: 60vh; display: flex; align-items: center; justify-content: center;
+      margin: 2rem 0;
     }
-
-    .media-card {
-      background: var(--dk-card);
-      backdrop-filter: blur(16px);
-      border-radius: 32px;
-      padding: var(--space-sm);
-      border: 1px solid var(--dk-border);
-      box-shadow: var(--shadow-glow);
+    .transition-bg {
+      position: absolute; inset: 0; background: linear-gradient(180deg, #030503 0%, var(--liftoff-slate) 50%, var(--liftoff-white) 100%);
+      opacity: 0; transition: opacity 2s cubic-bezier(0.16,1,0.3,1);
+      pointer-events: none; z-index: 0;
     }
-
-    /* ---------- VENUE RAIL (programmatic centering) ---------- */
+    .transition-bg.active { opacity: 1; }
+    .transition-content {
+      position: relative; z-index: 10; text-align: center;
+      transform: scale(0.9); opacity: 0; transition: all 1.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .transition-content.active { opacity: 1; transform: scale(1); }
+    .liftoff-brand-panel {
+      background: rgba(255,255,255,0.9); backdrop-filter: blur(24px);
+      border-radius: 48px; padding: 3rem; max-width: 800px; margin: 0 auto;
+      box-shadow: 0 40px 60px -20px rgba(0,0,0,0.3);
+      border: 1px solid rgba(30,136,229,0.3);
+    }
+    .liftoff-brand-panel img { height: 48px; margin-bottom: 1.5rem; }
+    .liftoff-brand-panel h2 { color: var(--liftoff-slate); font-size: 2.5rem; }
+    .liftoff-brand-panel p { color: #2d3748; }
+    /* ----- VENUE RAIL (PROGRAMMATIC CENTERING) ----- */
     .venue-rail {
-      display: flex;
-      gap: var(--space-sm);
-      overflow-x: auto;
-      padding: 10px 0 20px;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
+      display: flex; gap: var(--space-sm); overflow-x: auto; padding: 10px 0 20px;
+      scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none;
     }
-    .venue-rail::-webkit-scrollbar { display: none; }
-
     .venue-card {
-      flex: 0 0 260px;
-      scroll-snap-align: center;
-      background: var(--dk-card);
-      backdrop-filter: blur(12px);
-      border-radius: 28px;
-      padding: 20px 18px;
-      border: 1px solid var(--dk-border);
-      cursor: pointer;
-      transition: all 0.3s;
-      text-align: left;
-      color: white;
+      flex: 0 0 260px; scroll-snap-align: center;
+      background: rgba(8,20,8,0.7); backdrop-filter: blur(12px);
+      border-radius: 28px; padding: 20px; border: 1px solid var(--border-glow);
+      cursor: pointer; transition: all 0.3s; color: white;
     }
     .venue-card.is-active {
-      border-color: var(--dk-green);
-      box-shadow: 0 0 0 2px rgba(31,204,74,0.3), var(--shadow-glow);
-      background: rgba(20,40,20,0.7);
+      border-color: var(--liftoff-blue); box-shadow: 0 0 0 2px rgba(30,136,229,0.3), 0 0 30px rgba(31,204,74,0.3);
+      background: rgba(20,40,20,0.8);
     }
-    .venue-card img {
-      width: 100%;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 18px;
-      margin-bottom: 16px;
-    }
-
-    .venue-panel {
-      display: none;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-md);
-      margin-top: var(--space-md);
-    }
+    .venue-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 18px; margin-bottom: 16px; }
+    .venue-panel { display: none; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-top: var(--space-md); }
     .venue-panel.is-active { display: grid; }
-    .venue-panel img { border-radius: 24px; width: 100%; }
-
-    /* ---------- PRO CARDS ---------- */
-    .pro-grid {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      gap: var(--space-sm);
-    }
-
+    /* ----- PRO CARDS ----- */
+    .pro-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--space-sm); }
     .pro-card {
-      background: var(--dk-card);
-      backdrop-filter: blur(12px);
-      border-radius: 28px;
-      overflow: hidden;
-      border: 1px solid var(--dk-border);
+      background: rgba(8,20,8,0.6); backdrop-filter: blur(12px);
+      border-radius: 28px; overflow: hidden; border: 1px solid var(--border-glow);
     }
-    .pro-card img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      object-position: top;
-    }
+    .pro-card img { width: 100%; height: 220px; object-fit: cover; object-position: top; }
     .pro-info { padding: 20px; }
-
-    /* ---------- TIMELINE ---------- */
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
+    /* ----- TIMELINE ----- */
     .timeline-item {
-      display: grid;
-      grid-template-columns: 80px 1fr;
-      padding: var(--space-md) 0;
-      border-bottom: 1px solid var(--dk-border);
+      display: grid; grid-template-columns: 80px 1fr; padding: var(--space-md) 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
-    .timeline-num {
-      font-size: 3rem;
-      font-weight: 800;
-      color: var(--dk-green);
-      opacity: 0.5;
-      line-height: 1;
+    .timeline-num { font-size: 3rem; font-weight: 800; color: var(--liftoff-blue); opacity: 0.5; line-height: 1; }
+    /* ----- CTA (LIGHT THEME) ----- */
+    .cta-light {
+      background: var(--liftoff-white); border-radius: 48px; padding: var(--space-lg);
+      border: 1px solid var(--liftoff-slate); box-shadow: 0 30px 50px -20px rgba(0,0,0,0.2);
+      color: var(--liftoff-slate);
     }
-
-    /* ---------- CTA PANEL ---------- */
-    .cta-block {
-      background: linear-gradient(145deg, #0C260C, #030C03);
-      border-radius: 48px;
-      padding: var(--space-lg);
-      border: 1px solid var(--dk-green);
-      box-shadow: 0 30px 50px -20px #1FCC4A;
-    }
-
-    /* ---------- FLOATING BUTTON ---------- */
+    .cta-light .btn-primary { background: var(--liftoff-blue); color: white; box-shadow: 0 12px 20px -8px #1E88E5; }
+    /* ----- FAB ----- */
     .fab-top {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 56px;
-      height: 56px;
-      border-radius: 30px;
-      background: var(--dk-green);
-      color: black;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      cursor: pointer;
-      z-index: 99;
-      opacity: 0;
-      transition: 0.2s;
-      box-shadow: 0 10px 30px #1FCC4A;
+      position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px;
+      border-radius: 30px; background: var(--dk-green); color: black; border: none;
+      display: flex; align-items: center; justify-content: center; font-size: 24px;
+      cursor: pointer; z-index: 99; opacity: 0; transition: 0.2s; box-shadow: 0 10px 30px #1FCC4A;
     }
     .fab-top.visible { opacity: 1; }
-
-    /* ---------- RESPONSIVE ---------- */
+    /* ----- REVEAL ANIMATIONS (GSAP) ----- */
+    .reveal { opacity: 0; transform: translateY(30px); }
+    /* ----- MOBILE ----- */
     @media (max-width: 800px) {
       .hero-grid, .venue-panel.is-active, .pro-grid { grid-template-columns: 1fr; }
-      .dk-header { flex-wrap: wrap; justify-content: center; }
+      .co-header { justify-content: center; }
       .timeline-item { grid-template-columns: 50px 1fr; }
-    }
-
-    /* GSAP reveal */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* extra crisp */
-    .section-title {
-      margin-bottom: var(--space-sm);
     }
   </style>
 </head>
 <body>
+  <!-- THREE.JS CANVAS (WITH DRAFTKINGS LOGO) -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="bg-overlay"></div>
 
-  <!-- THREE.JS BACKGROUND CANVAS -->
-  <canvas id="dk-canvas"></canvas>
-  <div class="bg-noise"></div>
-  <div class="bg-glow"></div>
-  <div class="bg-glow two"></div>
+  <!-- MID‑PAGE TRANSITION BACKGROUND (LIFTOFF) -->
+  <div class="transition-bg" id="liftoffTransitionBg"></div>
 
-  <!-- MAIN APP SHELL -->
   <div class="app">
-    
-    <!-- STICKY HEADER -->
-    <header class="dk-header">
-      <div class="dk-logo">
-        <div class="dk-logo-icon"></div>
-        <div class="dk-logo-text">DRAFTKINGS <span>| EXECUTIVE</span></div>
+    <!-- CO‑BRANDED HEADER -->
+    <header class="co-header">
+      <div class="logo-group">
+        <div class="logo-item">
+          <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e319a28696a78b8dcb4454.png" alt="Liftoff.ai" style="height:28px;">
+          <span style="color:white; font-weight:300; margin:0 4px;">+</span>
+          <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e319a28696a78b8dcb4453.webp" alt="DraftKings" style="height:26px;">
+        </div>
+        <span style="color:var(--dk-green); font-weight:800; letter-spacing:2px;">CROWN & CORTEX</span>
       </div>
-      <nav class="dk-nav">
-        <button class="dk-nav-btn" data-scroll="hero">Home</button>
-        <button class="dk-nav-btn" data-scroll="concept">Concept</button>
-        <button class="dk-nav-btn" data-scroll="venues">Venues</button>
-        <button class="dk-nav-btn" data-scroll="pros">Pros</button>
-        <button class="dk-nav-btn" data-scroll="flow">Flow</button>
-        <button class="dk-nav-btn" data-scroll="cta">Next</button>
+      <nav class="nav-links">
+        <button class="nav-btn" data-scroll="hero">Home</button>
+        <button class="nav-btn" data-scroll="concept">The Edge</button>
+        <button class="nav-btn" data-scroll="venues">Venues</button>
+        <button class="nav-btn" data-scroll="pros">Pros</button>
+        <button class="nav-btn" data-scroll="flow">Arc</button>
+        <button class="nav-btn" data-scroll="cta">Secure</button>
       </nav>
       <a href="tel:7253074477" class="btn btn-outline" style="padding:8px 18px;"><i class="fa-solid fa-phone"></i> Matt</a>
     </header>
 
-    <!-- HERO SECTION -->
+    <!-- HERO (DRAFTKINGS + LIFTOFF NARRATIVE) -->
     <section id="hero">
       <div class="hero-grid">
         <div class="reveal">
-          <div class="kicker">MAY 20, 2026 • 1PM–4PM • 11 GUESTS</div>
-          <h1>Poker, prestige & <br><span style="color:var(--dk-green);">DraftKings energy.</span></h1>
-          <p style="font-size:1.2rem; margin: 1rem 0 1.5rem; color: var(--text-muted);">A private, cinematic executive experience built around Venetian luxury, Mob Museum lore, and Distillery craft — with two world‑class pros.</p>
-          
-          <div class="hero-stats">
-            <span class="stat-pill"><i class="fa-solid fa-user-group" style="color:var(--dk-green);"></i> 11 mixed skill</span>
-            <span class="stat-pill"><i class="fa-solid fa-champagne-glasses"></i> Private luxury + F&B</span>
-            <span class="stat-pill"><i class="fa-solid fa-sack-dollar"></i> ~$10k range</span>
+          <div class="kicker">LIFTOFF + DRAFTKINGS · MAY 20, 1‑4PM · 11 GUESTS</div>
+          <h1>Where <span class="hero-highlight">AI‑powered growth</span> meets <span class="hero-highlight">competitive edge.</span></h1>
+          <p style="font-size:1.2rem; margin:1.2rem 0; color:var(--text-muted);">Liftoff is bringing their client, DraftKings, for an executive poker experience that fuses Cortex‑level precision with the crown of sports betting. Private luxury. Venetian, Mob Museum, Distillery.</p>
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin:2rem 0;">
+            <span class="stat-pill"><i class="fa-solid fa-microchip"></i> Cortex™ AI mindset</span>
+            <span class="stat-pill"><i class="fa-solid fa-crown" style="color:var(--dk-green);"></i> DraftKings prestige</span>
+            <span class="stat-pill"><i class="fa-solid fa-champagne-glasses"></i> ~$10k range</span>
           </div>
-
-          <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-            <a href="#venues" class="btn btn-primary" data-scroll="venues"><i class="fa-solid fa-dice-d6"></i> Explore venues</a>
-            <a href="#cta" class="btn btn-outline" data-scroll="cta"><i class="fa-regular fa-star"></i> Approve direction</a>
+          <div style="display:flex; gap:15px; flex-wrap:wrap;">
+            <a href="#venues" class="btn btn-primary" data-scroll="venues"><i class="fa-solid fa-dice"></i> Explore experience</a>
+            <a href="#cta" class="btn btn-outline" data-scroll="cta"><i class="fa-regular fa-star"></i> Approve co‑branded build</a>
           </div>
         </div>
-
-        <div class="hero-media-stack reveal" style="transition-delay:0.1s;">
-          <div class="media-card">
-            <img src="https://storage.googleapis.com/msgsndr/E2BEbKIK8SvsJICq4vXY/media/693b4f0f53781fe90d3419f1.webp" alt="Venetian poker room" style="border-radius:20px; width:100%;">
-            <div style="padding: 16px 8px 4px;">
-              <span style="color:var(--dk-green); font-weight:700;">Prestige anchor</span>
-              <h3 style="margin:5px 0;">The Venetian Poker Room</h3>
-              <p style="color:var(--text-muted);">Iconic, polished, and instantly credible.</p>
-            </div>
-          </div>
-          <div class="media-card" style="display:flex; gap:12px;">
-            <i class="fa-solid fa-location-dot" style="color:var(--dk-green);"></i>
-            <div><strong>Recommended build:</strong> Private Strip room or Distillery buyout — best fit for 11 guests, F&B flow, and budget.</div>
+        <div class="reveal" style="transition-delay:0.1s;">
+          <div class="media-card" style="background:rgba(8,20,8,0.6); backdrop-filter:blur(16px); border-radius:32px; padding:1.5rem; border:1px solid var(--border-glow);">
+            <img src="https://storage.googleapis.com/msgsndr/E2BEbKIK8SvsJICq4vXY/media/693b4f0f53781fe90d3419f1.webp" style="border-radius:20px; width:100%;">
+            <h3 style="margin-top:1rem;">Liftoff powers the app economy. DraftKings fuels the competitive spirit.</h3>
+            <p style="color:var(--text-muted);">Together, this afternoon becomes a masterclass in decision‑making, risk calibration, and winning culture.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CONCEPT / WHY -->
+    <!-- CONCEPT (EDGE) -->
     <section id="concept">
       <div class="reveal">
-        <div class="kicker">engineered for draftkings</div>
-        <h2 class="section-title">Competitive adrenaline, Vegas storytelling.</h2>
-        <div style="display:grid; grid-template-columns: repeat(3,1fr); gap:var(--space-md); margin-top:var(--space-lg);">
-          <div class="media-card"><i class="fa-solid fa-bolt fa-2x" style="color:var(--dk-green);"></i><h3>Real-time hand analysis</h3><p>Like a pro watching your backswing — immediate, actionable feedback.</p></div>
-          <div class="media-card"><i class="fa-solid fa-building-columns fa-2x" style="color:var(--dk-green);"></i><h3>Three iconic venues</h3><p>Venetian, Mob Museum, Distillery — each with distinct prestige.</p></div>
-          <div class="media-card"><i class="fa-solid fa-trophy fa-2x" style="color:var(--dk-green);"></i><h3>Brand-forward</h3><p>Custom chips, cards, and signature cocktail named for DraftKings.</p></div>
+        <div class="kicker">the cortex + crown advantage</div>
+        <h2 style="font-size:2.8rem;">Poker as the ultimate performance lab.</h2>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-md); margin-top:2rem;">
+          <div class="media-card" style="padding:2rem;"><i class="fa-solid fa-brain fa-2x" style="color:var(--liftoff-blue);"></i><h3>AI‑grade reads</h3><p>Hand analysis that mirrors Liftoff’s Cortex engine—data‑driven, real‑time adjustments.</p></div>
+          <div class="media-card" style="padding:2rem;"><i class="fa-solid fa-crown fa-2x" style="color:var(--dk-green);"></i><h3>Skin in the game</h3><p>DraftKings’ core belief: life’s more exciting with stakes. Poker embodies that.</p></div>
+          <div class="media-card" style="padding:2rem;"><i class="fa-solid fa-rocket fa-2x" style="color:var(--liftoff-gold);"></i><h3>Growth acceleration</h3><p>11 executives, 3 iconic venues. A narrative that fuels internal and external storytelling.</p></div>
         </div>
       </div>
     </section>
 
-    <!-- VENUES (programmatic centering) -->
+    <!-- VENUES (PROGRAMMATIC CENTERING) -->
     <section id="venues" class="full-bleed">
       <div class="reveal">
-        <div class="kicker">click to center & explore</div>
-        <h2>Three headline environments.</h2>
-        <p class="section-sub">Select a venue — it will center and reveal details. App‑like, crisp.</p>
+        <div class="kicker">click to center & reveal</div>
+        <h2>Three environments. One unforgettable arc.</h2>
+        <p class="section-sub">Each venue locks into place, app‑like.</p>
       </div>
-
-      <!-- Venue Rail -->
       <div class="venue-rail" id="venueRail">
-        <div class="venue-card is-active" data-venue="venetian" tabindex="0">
+        <div class="venue-card is-active" data-venue="venetian">
           <img src="https://storage.googleapis.com/msgsndr/E2BEbKIK8SvsJICq4vXY/media/693b4f0facebf7f15448df05.jpg" alt="Venetian">
-          <div class="kicker">PRESTIGE</div>
-          <h3>The Venetian Poker Room</h3>
-          <p>Authentic, high-end, brand-match.</p>
+          <div class="kicker">PRESTIGE</div><h3>The Venetian Poker Room</h3><p>Iconic, authentic, brand‑forward.</p>
         </div>
         <div class="venue-card" data-venue="mob">
           <img src="https://storage.googleapis.com/msgsndr/NDOgzs7w4I6qjHbRXevV/media/697a5c8ff215da264751a508.jpg" alt="Mob Museum">
-          <div class="kicker">CINEMATIC</div>
-          <h3>The Mob Museum</h3>
-          <p>Immersive story + iconic photo moments.</p>
+          <div class="kicker">CINEMATIC</div><h3>The Mob Museum</h3><p>Storytelling, intrigue, legendary photo moments.</p>
         </div>
         <div class="venue-card" data-venue="distillery">
           <img src="https://storage.googleapis.com/msgsndr/NDOgzs7w4I6qjHbRXevV/media/697a5d28b700a2a6f37291b3.jpg" alt="Distillery">
-          <div class="kicker">CRAFT & COCKTAILS</div>
-          <h3>Las Vegas Distillery</h3>
-          <p>Private, speakeasy warmth, perfect for F&B.</p>
+          <div class="kicker">CRAFT</div><h3>Las Vegas Distillery</h3><p>Private, speakeasy warmth, perfect for F&B.</p>
         </div>
       </div>
-
-      <!-- Venue Panels -->
       <div id="venuePanels">
         <div class="venue-panel is-active" id="panel-venetian">
           <img src="https://storage.googleapis.com/msgsndr/E2BEbKIK8SvsJICq4vXY/media/693b4f0f5b7f6413a3defc1e.jpg">
-          <div>
-            <h3>Why Venetian hits for DraftKings</h3>
-            <p>Strongest visual anchor — instant poker credibility. Best as prestige benchmark. Privacy & food service can be layered.</p>
-            <ul style="margin-top:1rem; list-style: none;"><li>✓ World-class poker room</li><li>✓ Brand synergy</li><li>✓ Great for hand analysis</li></ul>
-          </div>
+          <div><h3>Venetian: the prestige anchor</h3><p>For Liftoff and DraftKings, the visual flex matters. Venetian delivers world‑class poker credibility.</p></div>
         </div>
         <div class="venue-panel" id="panel-mob">
           <img src="https://themobmuseum.org/wp-content/uploads/2021/02/TheMobMuseum_PrivateEvent_Distillery-1-1024x683-1.jpg">
-          <div>
-            <h3>Mob Museum: cinematic heat</h3>
-            <p>Adds Vegas storytelling. Best as an add‑on or reception layer. Creates unforgettable group energy.</p>
-          </div>
+          <div><h3>Mob Museum: cinematic layer</h3><p>Adds a Vegas‑only story dimension. Perfect for reception energy and unforgettable content.</p></div>
         </div>
         <div class="venue-panel" id="panel-distillery">
           <img src="https://storage.googleapis.com/msgsndr/NDOgzs7w4I6qjHbRXevV/media/697a5d28b700a2a6f37291b3.jpg">
-          <div>
-            <h3>Distillery: best overall fit</h3>
-            <p>Private, cocktail-forward, perfect for 11 guests with catered bites. Luxury without the crowds.</p>
+          <div><h3>Distillery: best operational fit</h3><p>Private, cocktail‑forward, and ideal for 11 guests with hosted food and beverage flow.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MID‑PAGE LIFTOFF TRANSITION (SCROLL‑TRIGGERED EPIC) -->
+    <div class="transition-zone" id="liftoffTransition">
+      <div class="transition-content" id="transitionContent">
+        <div class="liftoff-brand-panel">
+          <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e319a28696a78b8dcb4454.png" alt="Liftoff.ai">
+          <h2 style="font-weight:700;">Liftoff × DraftKings</h2>
+          <p style="font-size:1.2rem; margin:1rem 0;">Cortex‑powered growth meets the ultimate competitive experience.<br>This is where mobile intelligence fuels the poker table.</p>
+          <div style="display:flex; gap:8px; justify-content:center;">
+            <span class="stat-pill" style="background:var(--liftoff-slate); color:white;">AI‑driven performance</span>
+            <span class="stat-pill" style="background:var(--dk-green);">Real‑money excitement</span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- PROS -->
+    <!-- PROS (SAME IMAGES) -->
     <section id="pros">
-      <div class="reveal">
-        <div class="kicker">world-class talent</div>
-        <h2>Instructors who’ve played at the highest stakes.</h2>
-      </div>
+      <div class="reveal"><div class="kicker">elite instructors</div><h2>World‑class pros, same as before.</h2></div>
       <div class="pro-grid">
-        <div class="pro-card reveal"><img src="https://www.gamblinginsider.com/img/news/kenna-james-ape-in-poker-partnership.jpg"><div class="pro-info"><h3>Kenna James</h3><p>20+ yrs teaching · $4.2M+</p></div></div>
-        <div class="pro-card reveal"><img src="https://www.seminolehardrockpokeropen.com/wp-content/uploads/2022/01/2022-LHPO-Jeff-Madsen.jpg"><div class="pro-info"><h3>Jeff Madsen</h3><p>4 WSOP bracelets · $7M+</p></div></div>
-        <div class="pro-card reveal"><img src="https://media.cardplayer.com/assets/000/031/133/BLACK_WINS.jpg"><div class="pro-info"><h3>Taylor Black</h3><p>WPT Champion · $5.3M+</p></div></div>
-        <div class="pro-card reveal"><img src="https://s.pnimg.net/9BAfDHPTszjJnQoJZKBseCj5xEK867L6gzAhY0EdeC0/pr:article-leading-desktop-2x/aHR0cHM6Ly9wbmlt/Zy5uZXQvdy9hcnRp/Y2xlcy8wLzY0OS84/MTNmNDJhOWI4Lmpw/Zw.webp"><div class="pro-info"><h3>Nick Pupillo</h3><p>WSOP bracelet · $6.3M+</p></div></div>
+        <div class="pro-card reveal"><img src="https://www.gamblinginsider.com/img/news/kenna-james-ape-in-poker-partnership.jpg"><div class="pro-info"><h3>Kenna James</h3><p>20+ yrs · $4.2M+</p></div></div>
+        <div class="pro-card reveal"><img src="https://www.seminolehardrockpokeropen.com/wp-content/uploads/2022/01/2022-LHPO-Jeff-Madsen.jpg"><div class="pro-info"><h3>Jeff Madsen</h3><p>4 WSOP · $7M+</p></div></div>
+        <div class="pro-card reveal"><img src="https://media.cardplayer.com/assets/000/031/133/BLACK_WINS.jpg"><div class="pro-info"><h3>Taylor Black</h3><p>WPT Champ · $5.3M+</p></div></div>
+        <div class="pro-card reveal"><img src="https://s.pnimg.net/9BAfDHPTszjJnQoJZKBseCj5xEK867L6gzAhY0EdeC0/pr:article-leading-desktop-2x/aHR0cHM6Ly9wbmlt/Zy5uZXQvdy9hcnRp/Y2xlcy8wLzY0OS84/MTNmNDJhOWI4Lmpw/Zw.webp"><div class="pro-info"><h3>Nick Pupillo</h3><p>WSOP · $6.3M+</p></div></div>
       </div>
     </section>
 
-    <!-- FLOW / TIMELINE -->
+    <!-- FLOW (TIMELINE) -->
     <section id="flow">
-      <div class="reveal"><div class="kicker">1PM – 4PM arc</div><h2>Executive flow, mixed-skill friendly.</h2></div>
+      <div class="reveal"><div class="kicker">1PM – 4PM arc</div><h2>Executive flow, mixed‑skill friendly.</h2></div>
       <div class="timeline">
-        <div class="timeline-item reveal"><span class="timeline-num">01</span><div><h3>Arrival & welcome</h3><p>Luxury private setting, signature cocktail, light bites.</p></div></div>
-        <div class="timeline-item reveal"><span class="timeline-num">02</span><div><h3>Foundations & psychology</h3><p>Two pros tailor to all levels — confidence building.</p></div></div>
-        <div class="timeline-item reveal"><span class="timeline-num">03</span><div><h3>Live play + hand analysis</h3><p>Real‑time breakdowns, social and electric.</p></div></div>
-        <div class="timeline-item reveal"><span class="timeline-num">04</span><div><h3>Mini‑tournament finale</h3><p>Fun, competitive capstone with prizes.</p></div></div>
+        <div class="timeline-item reveal"><span class="timeline-num">01</span><div><h3>Arrival & welcome</h3><p>Private luxury setting, signature cocktails.</p></div></div>
+        <div class="timeline-item reveal"><span class="timeline-num">02</span><div><h3>Foundations & psychology</h3><p>Two pros tailor to all levels.</p></div></div>
+        <div class="timeline-item reveal"><span class="timeline-num">03</span><div><h3>Live play + hand analysis</h3><p>Real‑time breakdowns, social energy.</p></div></div>
+        <div class="timeline-item reveal"><span class="timeline-num">04</span><div><h3>Mini‑tournament finale</h3><p>Competitive capstone with prizes.</p></div></div>
       </div>
     </section>
 
-    <!-- CTA -->
+    <!-- CTA (LIGHT, LIFTOFF‑INSPIRED) -->
     <section id="cta">
-      <div class="cta-block reveal">
-        <div class="kicker">recommended move</div>
-        <h2 style="font-size: 2.5rem;">Approve the DraftKings direction.</h2>
-        <p style="margin: 1.5rem 0;">We'll lock in a private luxury build (Strip room or Distillery) that fits 11 guests, 1–4pm, with hosted F&B — around $10k.</p>
+      <div class="cta-light reveal">
+        <div class="kicker" style="color:var(--liftoff-slate);">secure the date</div>
+        <h2 style="color:var(--liftoff-slate);">Approve the Liftoff + DraftKings build.</h2>
+        <p style="margin:1.5rem 0; font-size:1.2rem;">We’ll lock in a private luxury venue (Strip room or Distillery) that fits 11 guests, 1–4pm, hosted F&B, around $10k.</p>
         <div style="display:flex; gap:20px; flex-wrap:wrap;">
-          <a href="mailto:book@pokertraininglasvegas.com?subject=DraftKings%20May%2020%20Approval&body=Hi%20Matt%2C%20let's%20lock%20in%20the%20DraftKings%20experience%20for%20May%2020%2C%2011%20guests.%20Please%20send%20invoice." class="btn btn-primary"><i class="fa-solid fa-check"></i> Approve & send invoice</a>
-          <a href="tel:7253074477" class="btn btn-outline"><i class="fa-solid fa-phone"></i> Call Matt</a>
+          <a href="mailto:book@pokertraininglasvegas.com?subject=Liftoff%20%2B%20DraftKings%20May%2020%20Approval&body=Hi%20Matt%2C%20let's%20lock%20in%20the%20co‑branded%20experience%20for%20May%2020.%20Please%20send%20invoice." class="btn btn-primary"><i class="fa-solid fa-check"></i> Approve & send invoice</a>
+          <a href="tel:7253074477" class="btn btn-outline" style="border-color:var(--liftoff-slate); color:var(--liftoff-slate);"><i class="fa-solid fa-phone"></i> Call Matt</a>
         </div>
-        <p style="margin-top:2rem; font-size:0.9rem;">Matt Carpenter · (725) 307-4477 · book@pokertraininglasvegas.com</p>
+        <p style="margin-top:2rem;">Matt Carpenter · (725) 307‑4477 · book@pokertraininglasvegas.com</p>
       </div>
     </section>
   </div>
 
-  <button class="fab-top" id="fabTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+  <button class="fab-top" id="fabTop"><i class="fa-solid fa-arrow-up"></i></button>
 
   <script>
     (function(){
       "use strict";
-
-      // ---------- THREE.JS BACKGROUND (branded green) ----------
-      const canvas = document.getElementById('dk-canvas');
+      // ---------- THREE.JS: DRAFTKINGS LOGO AS TEXTURE ON ROTATING PLANE ----------
+      const canvas = document.getElementById('bg-canvas');
       if (canvas && window.THREE) {
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.1, 1000);
-        camera.position.z = 20;
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
+        camera.position.z = 15;
         const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(devicePixelRatio, 1.8));
-
-        const group = new THREE.Group();
-        // central icosahedron points
-        const geo = new THREE.IcosahedronGeometry(5.8, 12);
-        const mat = new THREE.PointsMaterial({ color: 0x7CFF42, size: 0.045, transparent: true, opacity: 0.65 });
-        const points = new THREE.Points(geo, mat);
-        group.add(points);
+        renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
         
-        const ringGeo = new THREE.TorusGeometry(8.0, 0.025, 20, 200);
-        const ringMat = new THREE.MeshStandardMaterial({ color: 0x1FCC4A, emissive: new THREE.Color(0x0a2a0a), transparent: true, opacity: 0.25 });
-        const ring = new THREE.Mesh(ringGeo, ringMat);
-        ring.rotation.x = 1.3;
-        ring.rotation.y = 0.5;
-        group.add(ring);
-
-        const ambient = new THREE.AmbientLight(0x404040);
-        const light = new THREE.PointLight(0x7CFF42, 0.8);
-        light.position.set(10,10,10);
-        scene.add(ambient, light, group);
-
+        // DraftKings logo as texture
+        const textureLoader = new THREE.TextureLoader();
+        const dkLogoTexture = textureLoader.load('https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e319a28696a78b8dcb4453.webp');
+        
+        const geometry = new THREE.CylinderGeometry(4.5, 4.5, 0.2, 64);
+        const material = new THREE.MeshStandardMaterial({ 
+          map: dkLogoTexture, 
+          transparent: true,
+          emissive: new THREE.Color(0x1FCC4A), emissiveIntensity: 0.4,
+          roughness: 0.3, metalness: 0.1
+        });
+        const logoMesh = new THREE.Mesh(geometry, material);
+        logoMesh.rotation.x = 0.4;
+        logoMesh.rotation.y = 0.8;
+        scene.add(logoMesh);
+        
+        // Additional floating crown particles (green dots)
+        const particlesGeo = new THREE.BufferGeometry();
+        const count = 800;
+        const positions = new Float32Array(count * 3);
+        for (let i=0; i<count*3; i+=3) {
+          positions[i] = (Math.random()-0.5)*30;
+          positions[i+1] = (Math.random()-0.5)*30;
+          positions[i+2] = (Math.random()-0.5)*20;
+        }
+        particlesGeo.setAttribute('position', new THREE.BufferAttribute(positions,3));
+        const particlesMat = new THREE.PointsMaterial({color:0x7CFF42, size:0.03, transparent:true});
+        const particles = new THREE.Points(particlesGeo, particlesMat);
+        scene.add(particles);
+        
+        const ambient = new THREE.AmbientLight(0x404060);
+        const light1 = new THREE.PointLight(0x7CFF42, 1);
+        light1.position.set(5,5,5);
+        const light2 = new THREE.PointLight(0x1E88E5, 0.5);
+        light2.position.set(-5,3,8);
+        scene.add(ambient, light1, light2);
+        
         function resize() {
           camera.aspect = window.innerWidth/window.innerHeight;
           camera.updateProjectionMatrix();
@@ -670,9 +426,9 @@
         window.addEventListener('resize', resize);
         function animate() {
           requestAnimationFrame(animate);
-          group.rotation.y += 0.0015;
-          group.rotation.x += 0.0006;
-          points.rotation.z += 0.001;
+          logoMesh.rotation.y += 0.003;
+          logoMesh.rotation.x += 0.001;
+          particles.rotation.y += 0.0005;
           renderer.render(scene, camera);
         }
         animate();
@@ -681,80 +437,54 @@
       // ---------- GSAP + SCROLLTRIGGER ----------
       if (window.gsap && window.ScrollTrigger) {
         gsap.registerPlugin(ScrollTrigger);
-        
-        // Reveal animations
-        const reveals = document.querySelectorAll('.reveal');
-        reveals.forEach(el => {
-          gsap.fromTo(el, { y: 42, opacity: 0 }, {
-            y: 0, opacity: 1, duration: 0.9, ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
-          });
+        gsap.utils.toArray('.reveal').forEach(el => {
+          gsap.fromTo(el, {y:42, opacity:0}, {y:0, opacity:1, duration:0.9, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 85%'}});
         });
-
-        // Parallax glow
-        gsap.to('.bg-glow', { yPercent: -15, xPercent: 8, ease:'none', scrollTrigger: { trigger:'body', start:'top top', end:'bottom bottom', scrub:1.5 }});
-        gsap.to('.bg-glow.two', { yPercent: 12, xPercent: -10, ease:'none', scrollTrigger: { trigger:'body', start:'top top', end:'bottom bottom', scrub:1.2 }});
+        
+        // EPIC LIFTOFF TRANSITION (mid‑page)
+        const transitionBg = document.getElementById('liftoffTransitionBg');
+        const transitionContent = document.getElementById('transitionContent');
+        ScrollTrigger.create({
+          trigger: '#liftoffTransition',
+          start: 'top 60%',
+          end: 'bottom 20%',
+          onEnter: () => {
+            transitionBg.classList.add('active');
+            transitionContent.classList.add('active');
+          },
+          onLeaveBack: () => {
+            transitionBg.classList.remove('active');
+            transitionContent.classList.remove('active');
+          }
+        });
       }
 
-      // ---------- SMOOTH SCROLL + CENTERING VENUE ----------
-      const scrollToSection = (selector) => {
-        const el = document.querySelector(selector);
-        if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      };
-
+      // ---------- SMOOTH SCROLL ----------
+      const scrollTo = (sel) => document.querySelector(sel)?.scrollIntoView({behavior:'smooth', block:'start'});
       document.querySelectorAll('[data-scroll]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const id = btn.getAttribute('data-scroll');
-          scrollToSection(`#${id}`);
-        });
+        btn.addEventListener('click', (e) => { e.preventDefault(); scrollTo(`#${btn.dataset.scroll}`); });
       });
-
-      // Venue rail centering & panel switch
-      const venueCards = document.querySelectorAll('.venue-card');
-      const panels = {
-        venetian: document.getElementById('panel-venetian'),
-        mob: document.getElementById('panel-mob'),
-        distillery: document.getElementById('panel-distillery')
-      };
-
-      function setActiveVenue(venueKey, clickedCard) {
-        venueCards.forEach(c => c.classList.remove('is-active'));
+      
+      // ---------- VENUE RAIL + PROGRAMMATIC CENTERING ----------
+      const cards = document.querySelectorAll('.venue-card');
+      const panels = { venetian: document.getElementById('panel-venetian'), mob: document.getElementById('panel-mob'), distillery: document.getElementById('panel-distillery') };
+      function setActive(venueKey, clickedCard) {
+        cards.forEach(c => c.classList.remove('is-active'));
         document.querySelectorAll('.venue-panel').forEach(p => p.classList.remove('is-active'));
-        
-        const activeCard = Array.from(venueCards).find(c => c.dataset.venue === venueKey);
-        if(activeCard) activeCard.classList.add('is-active');
+        const activeCard = Array.from(cards).find(c => c.dataset.venue === venueKey);
+        activeCard?.classList.add('is-active');
         if(panels[venueKey]) panels[venueKey].classList.add('is-active');
-        
-        if(clickedCard) {
-          clickedCard.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }
+        if(clickedCard) clickedCard.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
       }
-
-      venueCards.forEach(card => {
-        card.addEventListener('click', function() {
-          setActiveVenue(this.dataset.venue, this);
-        });
-        card.addEventListener('keypress', (e) => { if(e.key === 'Enter') setActiveVenue(card.dataset.venue, card); });
-      });
-
-      // FAB back to top
+      cards.forEach(c => c.addEventListener('click', function(){ setActive(this.dataset.venue, this); }));
+      
+      // FAB
       const fab = document.getElementById('fabTop');
-      window.addEventListener('scroll', () => {
-        fab.classList.toggle('visible', window.scrollY > 400);
-      });
-      fab.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
-
-      // Make sure nav buttons also work
-      document.querySelectorAll('.dk-nav-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const target = btn.getAttribute('data-scroll');
-          if(target) scrollToSection(`#${target}`);
-        });
-      });
-
-      // Set initial active venue (venetian)
-      setActiveVenue('venetian');
+      window.addEventListener('scroll', () => fab.classList.toggle('visible', window.scrollY>400));
+      fab.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+      
+      // Initialize
+      setActive('venetian');
     })();
   </script>
 </body>
