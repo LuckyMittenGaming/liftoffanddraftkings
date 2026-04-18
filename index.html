@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Liftoff + DraftKings | The Crown & Cortex Experience</title>
-  <meta name="description" content="A cinematic co‑branded executive proposal for Liftoff.ai and DraftKings. Venetian, Mob Museum, Distillery. Poker, AI, and competitive edge.">
+  <meta name="description" content="Co‑branded executive proposal: Liftoff.ai and DraftKings. Venetian, Mob Museum, Distillery. Poker, AI, and competitive edge.">
   <!-- FONTS & ICONS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -125,17 +125,36 @@
       background: rgba(10,28,10,0.7); backdrop-filter: blur(8px);
       padding: 8px 20px; border-radius: 60px; border: 1px solid var(--border-glow);
     }
-    /* ----- LIFTOFF TRANSITION (MID‑PAGE EPIC) ----- */
+    .media-card {
+      background: rgba(8,20,8,0.6); backdrop-filter: blur(16px);
+      border-radius: 32px; padding: 1.5rem; border: 1px solid var(--border-glow);
+    }
+    /* ----- LIFTOFF TRANSITION (PARALLAX ROCKET) ----- */
     .transition-zone {
-      position: relative; height: 60vh; display: flex; align-items: center; justify-content: center;
-      margin: 2rem 0;
+      position: relative; height: 70vh; display: flex; align-items: center; justify-content: center;
+      margin: 2rem 0; overflow: hidden;
     }
     .transition-bg {
-      position: absolute; inset: 0; background: linear-gradient(180deg, #030503 0%, var(--liftoff-slate) 50%, var(--liftoff-white) 100%);
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, #030503 0%, var(--liftoff-slate) 40%, var(--liftoff-white) 100%);
       opacity: 0; transition: opacity 2s cubic-bezier(0.16,1,0.3,1);
       pointer-events: none; z-index: 0;
     }
     .transition-bg.active { opacity: 1; }
+    .parallax-rocket {
+      position: absolute;
+      bottom: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      will-change: transform, opacity;
+      pointer-events: none;
+    }
+    .parallax-rocket img {
+      width: 150px;
+      height: auto;
+      filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15));
+    }
     .transition-content {
       position: relative; z-index: 10; text-align: center;
       transform: scale(0.9); opacity: 0; transition: all 1.8s cubic-bezier(0.16,1,0.3,1);
@@ -168,6 +187,7 @@
     .venue-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 18px; margin-bottom: 16px; }
     .venue-panel { display: none; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-top: var(--space-md); }
     .venue-panel.is-active { display: grid; }
+    .venue-panel img { border-radius: 24px; width: 100%; }
     /* ----- PRO CARDS ----- */
     .pro-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--space-sm); }
     .pro-card {
@@ -204,11 +224,12 @@
       .hero-grid, .venue-panel.is-active, .pro-grid { grid-template-columns: 1fr; }
       .co-header { justify-content: center; }
       .timeline-item { grid-template-columns: 50px 1fr; }
+      .parallax-rocket img { width: 100px; }
     }
   </style>
 </head>
 <body>
-  <!-- THREE.JS CANVAS (WITH DRAFTKINGS LOGO) -->
+  <!-- THREE.JS CANVAS (DRAFTKINGS LOGO TEXTURE) -->
   <canvas id="bg-canvas"></canvas>
   <div class="bg-overlay"></div>
 
@@ -237,7 +258,7 @@
       <a href="tel:7253074477" class="btn btn-outline" style="padding:8px 18px;"><i class="fa-solid fa-phone"></i> Matt</a>
     </header>
 
-    <!-- HERO (DRAFTKINGS + LIFTOFF NARRATIVE) -->
+    <!-- HERO -->
     <section id="hero">
       <div class="hero-grid">
         <div class="reveal">
@@ -255,7 +276,7 @@
           </div>
         </div>
         <div class="reveal" style="transition-delay:0.1s;">
-          <div class="media-card" style="background:rgba(8,20,8,0.6); backdrop-filter:blur(16px); border-radius:32px; padding:1.5rem; border:1px solid var(--border-glow);">
+          <div class="media-card">
             <img src="https://storage.googleapis.com/msgsndr/E2BEbKIK8SvsJICq4vXY/media/693b4f0f53781fe90d3419f1.webp" style="border-radius:20px; width:100%;">
             <h3 style="margin-top:1rem;">Liftoff powers the app economy. DraftKings fuels the competitive spirit.</h3>
             <p style="color:var(--text-muted);">Together, this afternoon becomes a masterclass in decision‑making, risk calibration, and winning culture.</p>
@@ -264,7 +285,7 @@
       </div>
     </section>
 
-    <!-- CONCEPT (EDGE) -->
+    <!-- CONCEPT -->
     <section id="concept">
       <div class="reveal">
         <div class="kicker">the cortex + crown advantage</div>
@@ -314,8 +335,12 @@
       </div>
     </section>
 
-    <!-- MID‑PAGE LIFTOFF TRANSITION (SCROLL‑TRIGGERED EPIC) -->
+    <!-- MID‑PAGE LIFTOFF TRANSITION (with parallax rocket) -->
     <div class="transition-zone" id="liftoffTransition">
+      <!-- Rocket element that will slide up parallax style -->
+      <div class="parallax-rocket" id="parallaxRocket">
+        <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e319a28696a78b8dcb4454.png" alt="Liftoff Rocket">
+      </div>
       <div class="transition-content" id="transitionContent">
         <div class="liftoff-brand-panel">
           <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e319a28696a78b8dcb4454.png" alt="Liftoff.ai">
@@ -329,7 +354,7 @@
       </div>
     </div>
 
-    <!-- PROS (SAME IMAGES) -->
+    <!-- PROS -->
     <section id="pros">
       <div class="reveal"><div class="kicker">elite instructors</div><h2>World‑class pros, same as before.</h2></div>
       <div class="pro-grid">
@@ -381,7 +406,6 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
         
-        // DraftKings logo as texture
         const textureLoader = new THREE.TextureLoader();
         const dkLogoTexture = textureLoader.load('https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e319a28696a78b8dcb4453.webp');
         
@@ -397,7 +421,6 @@
         logoMesh.rotation.y = 0.8;
         scene.add(logoMesh);
         
-        // Additional floating crown particles (green dots)
         const particlesGeo = new THREE.BufferGeometry();
         const count = 800;
         const positions = new Float32Array(count * 3);
@@ -434,29 +457,45 @@
         animate();
       }
 
-      // ---------- GSAP + SCROLLTRIGGER ----------
+      // ---------- GSAP + SCROLLTRIGGER + PARALLAX ROCKET ----------
       if (window.gsap && window.ScrollTrigger) {
         gsap.registerPlugin(ScrollTrigger);
+        
         gsap.utils.toArray('.reveal').forEach(el => {
           gsap.fromTo(el, {y:42, opacity:0}, {y:0, opacity:1, duration:0.9, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 85%'}});
         });
         
-        // EPIC LIFTOFF TRANSITION (mid‑page)
+        const rocket = document.getElementById('parallaxRocket');
         const transitionBg = document.getElementById('liftoffTransitionBg');
         const transitionContent = document.getElementById('transitionContent');
-        ScrollTrigger.create({
-          trigger: '#liftoffTransition',
-          start: 'top 60%',
-          end: 'bottom 20%',
-          onEnter: () => {
-            transitionBg.classList.add('active');
-            transitionContent.classList.add('active');
-          },
-          onLeaveBack: () => {
-            transitionBg.classList.remove('active');
-            transitionContent.classList.remove('active');
-          }
-        });
+        
+        if (rocket && transitionBg) {
+          gsap.set(rocket, { y: 150, opacity: 0 });
+          
+          ScrollTrigger.create({
+            trigger: '#liftoffTransition',
+            start: 'top 70%',
+            end: 'bottom 30%',
+            scrub: 1.2,
+            onEnter: () => {
+              transitionBg.classList.add('active');
+              transitionContent.classList.add('active');
+            },
+            onLeaveBack: () => {
+              transitionBg.classList.remove('active');
+              transitionContent.classList.remove('active');
+            },
+            onUpdate: (self) => {
+              const progress = self.progress;
+              gsap.to(rocket, {
+                y: 150 - progress * 300,
+                opacity: progress * 1.5,
+                duration: 0.1,
+                overwrite: true
+              });
+            }
+          });
+        }
       }
 
       // ---------- SMOOTH SCROLL ----------
