@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Liftoff + DraftKings | The Crown & Cortex Experience</title>
+  <title>Liftoff + DraftKings | Crown & Cortex Experience</title>
   <meta name="description" content="Co‑branded executive proposal: Liftoff.ai and DraftKings. Venetian, Mob Museum, Distillery. Poker, AI, and competitive edge.">
   <!-- FONTS & ICONS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +15,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
-    /* ----- RESET & DESIGN TOKENS (DK + LIFTOFF MERGE) ----- */
+    /* ----- RESET & DESIGN TOKENS (DK + LIFTOFF) ----- */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --dk-black: #030503;
@@ -42,7 +42,7 @@
       line-height: 1.5;
       overflow-x: hidden;
     }
-    /* ----- BACKGROUND CANVAS (Three.js with DraftKings logo) ----- */
+    /* ----- LAYER 1: THREE.JS CANVAS (BOTTOM) ----- */
     #bg-canvas {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -52,9 +52,37 @@
       position: fixed; inset: 0; pointer-events: none; z-index: 1;
       background: radial-gradient(circle at 30% 40%, rgba(31,204,74,0.12) 0%, transparent 60%);
     }
-    /* ----- APP SHELL ----- */
+    /* ----- LAYER 2: TRANSITION BACKGROUND (WHITE GRADIENT) ----- */
+    .transition-bg {
+      position: fixed; inset: 0;
+      background: linear-gradient(180deg, #030503 0%, var(--liftoff-slate) 30%, var(--liftoff-white) 100%);
+      opacity: 0; transition: opacity 2s cubic-bezier(0.16,1,0.3,1);
+      pointer-events: none; z-index: 10;
+    }
+    .transition-bg.active { opacity: 1; }
+    /* ----- LAYER 3: ROCKET (MIDDLE, FULL SCREEN) ----- */
+    .parallax-rocket {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 20;
+      will-change: transform, opacity;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .parallax-rocket img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      max-width: 90vw;
+      max-height: 90vh;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
+      transform: scale(1.2);
+    }
+    /* ----- LAYER 4: CONTENT (TOP) ----- */
     .app {
-      position: relative; z-index: 5;
+      position: relative; z-index: 30;
       max-width: 1440px; margin: 0 auto; padding: 0 var(--space-sm);
     }
     section { padding: var(--space-lg) 0; width: 100%; }
@@ -105,7 +133,7 @@
       border: 1.5px solid rgba(255,255,255,0.2); color: white; backdrop-filter: blur(8px);
     }
     .btn-outline:hover { border-color: var(--liftoff-blue); background: rgba(30,136,229,0.1); }
-    /* ----- HERO (DUAL BRAND) ----- */
+    /* ----- HERO ----- */
     .hero-grid {
       display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--space-lg); align-items: center;
     }
@@ -129,34 +157,13 @@
       background: rgba(8,20,8,0.6); backdrop-filter: blur(16px);
       border-radius: 32px; padding: 1.5rem; border: 1px solid var(--border-glow);
     }
-    /* ----- LIFTOFF TRANSITION (PARALLAX ROCKET) ----- */
+    /* ----- TRANSITION CONTENT (TOP LAYER) ----- */
     .transition-zone {
-      position: relative; height: 70vh; display: flex; align-items: center; justify-content: center;
-      margin: 2rem 0; overflow: hidden;
-    }
-    .transition-bg {
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, #030503 0%, var(--liftoff-slate) 40%, var(--liftoff-white) 100%);
-      opacity: 0; transition: opacity 2s cubic-bezier(0.16,1,0.3,1);
-      pointer-events: none; z-index: 0;
-    }
-    .transition-bg.active { opacity: 1; }
-    .parallax-rocket {
-      position: absolute;
-      bottom: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 5;
-      will-change: transform, opacity;
-      pointer-events: none;
-    }
-    .parallax-rocket img {
-      width: 150px;
-      height: auto;
-      filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15));
+      position: relative; height: 100vh; display: flex; align-items: center; justify-content: center;
+      margin: 0; overflow: hidden; z-index: 25;
     }
     .transition-content {
-      position: relative; z-index: 10; text-align: center;
+      position: relative; z-index: 30; text-align: center;
       transform: scale(0.9); opacity: 0; transition: all 1.8s cubic-bezier(0.16,1,0.3,1);
     }
     .transition-content.active { opacity: 1; transform: scale(1); }
@@ -224,18 +231,24 @@
       .hero-grid, .venue-panel.is-active, .pro-grid { grid-template-columns: 1fr; }
       .co-header { justify-content: center; }
       .timeline-item { grid-template-columns: 50px 1fr; }
-      .parallax-rocket img { width: 100px; }
+      .parallax-rocket img { max-width: 95vw; max-height: 95vh; }
     }
   </style>
 </head>
 <body>
-  <!-- THREE.JS CANVAS (DRAFTKINGS LOGO TEXTURE) -->
+  <!-- LAYER 1: THREE.JS CANVAS (DRAFTKINGS LOGO) -->
   <canvas id="bg-canvas"></canvas>
   <div class="bg-overlay"></div>
 
-  <!-- MID‑PAGE TRANSITION BACKGROUND (LIFTOFF) -->
+  <!-- LAYER 2: WHITE GRADIENT BACKGROUND (FIXED) -->
   <div class="transition-bg" id="liftoffTransitionBg"></div>
 
+  <!-- LAYER 3: FULL-SCREEN ROCKET (MIDDLE) -->
+  <div class="parallax-rocket" id="parallaxRocket">
+    <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e319a28696a78b8dcb4454.png" alt="Liftoff Rocket">
+  </div>
+
+  <!-- LAYER 4: MAIN CONTENT (TOP) -->
   <div class="app">
     <!-- CO‑BRANDED HEADER -->
     <header class="co-header">
@@ -335,12 +348,8 @@
       </div>
     </section>
 
-    <!-- MID‑PAGE LIFTOFF TRANSITION (with parallax rocket) -->
+    <!-- MID‑PAGE LIFTOFF TRANSITION (CONTENT ON TOP) -->
     <div class="transition-zone" id="liftoffTransition">
-      <!-- Rocket element that will slide up parallax style -->
-      <div class="parallax-rocket" id="parallaxRocket">
-        <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e3c3d7c56ad27908ad8434.svg" alt="Liftoff Rocket">
-      </div>
       <div class="transition-content" id="transitionContent">
         <div class="liftoff-brand-panel">
           <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e319a28696a78b8dcb4454.png" alt="Liftoff.ai">
@@ -376,7 +385,7 @@
       </div>
     </section>
 
-    <!-- CTA (LIGHT, LIFTOFF‑INSPIRED) -->
+    <!-- CTA (LIGHT THEME) -->
     <section id="cta">
       <div class="cta-light reveal">
         <div class="kicker" style="color:var(--liftoff-slate);">secure the date</div>
@@ -396,7 +405,7 @@
   <script>
     (function(){
       "use strict";
-      // ---------- THREE.JS: DRAFTKINGS LOGO AS TEXTURE ON ROTATING PLANE ----------
+      // ---------- THREE.JS: DRAFTKINGS LOGO TEXTURE (BOTTOM LAYER) ----------
       const canvas = document.getElementById('bg-canvas');
       if (canvas && window.THREE) {
         const scene = new THREE.Scene();
@@ -457,7 +466,7 @@
         animate();
       }
 
-      // ---------- GSAP + SCROLLTRIGGER + PARALLAX ROCKET ----------
+      // ---------- GSAP + SCROLLTRIGGER + FULL-SCREEN ROCKET PARALLAX ----------
       if (window.gsap && window.ScrollTrigger) {
         gsap.registerPlugin(ScrollTrigger);
         
@@ -470,12 +479,13 @@
         const transitionContent = document.getElementById('transitionContent');
         
         if (rocket && transitionBg) {
-          gsap.set(rocket, { y: 150, opacity: 0 });
+          // Rocket starts off-screen (below view) and scaled down
+          gsap.set(rocket, { y: '120%', scale: 0.8, opacity: 0 });
           
           ScrollTrigger.create({
             trigger: '#liftoffTransition',
-            start: 'top 70%',
-            end: 'bottom 30%',
+            start: 'top 80%',
+            end: 'bottom 20%',
             scrub: 1.2,
             onEnter: () => {
               transitionBg.classList.add('active');
@@ -488,8 +498,9 @@
             onUpdate: (self) => {
               const progress = self.progress;
               gsap.to(rocket, {
-                y: 150 - progress * 300,
-                opacity: progress * 1.5,
+                y: `${120 - progress * 120}%`,  // from 120% to 0% (center)
+                scale: 0.8 + progress * 0.7,    // from 0.8 to 1.5
+                opacity: progress * 1.2,
                 duration: 0.1,
                 overwrite: true
               });
