@@ -153,10 +153,13 @@
       #float3 { bottom: 30% !important; left: 2% !important; }
       #float4 { bottom: 12% !important; right: 2% !important; }
       
-      /* Ensure all specified titles have the backdrop effect */
-      h2, .kicker {
-        background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
-        display: inline-block; padding: 0.2rem 1rem; border-radius: 40px;
+      /* Remove grey background from CTA title & Next Steps on mobile, center contact */
+      .cta-light h2, .cta-light h3 {
+        background: transparent; backdrop-filter: none;
+        text-align: center; display: block; padding: 0;
+      }
+      .cta-light p:last-of-type {
+        text-align: center;
       }
     }
     @media (min-width: 801px) {
@@ -325,7 +328,7 @@
     </section>
 
     <section id="flow">
-      <div class="reveal"><div class="kicker">1:00 PM – 4:00 PM</div><h2 style="text-align:center;">Executive flow, mixed‑skill friendly.</h2></div>
+      <div class="reveal"><div class="kicker" style="text-align:center;">1:00 PM – 4:00 PM</div><h2 style="text-align:center;">Executive flow, mixed‑skill friendly.</h2></div>
       <div class="timeline-wrapper reveal">
         <div class="timeline">
           <div class="timeline-item"><span class="timeline-num">1:00–1:10 PM</span><div><h3>Get drinks / Get Ready!</h3></div></div>
@@ -355,7 +358,7 @@
           <a href="mailto:book@pokertraininglasvegas.com?subject=Liftoff%20AI%20%2B%20DraftKings%20May%2020%20Approval&body=Hi%20Matt%2C%20let's%20lock%20in%20the%20co‑branded%20experience." class="btn btn-primary"><i class="fa-solid fa-check"></i> Approve & Send Invoice</a>
           <a href="tel:7253074477" class="btn btn-outline" style="border-color:var(--liftoff-slate); color:var(--liftoff-slate);"><i class="fa-solid fa-phone"></i> Call Matt</a>
         </div>
-        <p style="margin-top:2rem;">Matt Carpenter · (725) 307‑4477 · book@pokertraininglasvegas.com</p>
+        <p style="margin-top:2rem; text-align:center;">Matt Carpenter · (725) 307‑4477 · book@pokertraininglasvegas.com</p>
       </div>
     </section>
   </div>
