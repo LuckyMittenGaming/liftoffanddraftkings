@@ -27,9 +27,11 @@
       --text-muted: #B0C7B0;
       --font-body: 'Inter', sans-serif;
       --font-display: 'Plus Jakarta Sans', sans-serif;
+      --space-xs: clamp(0.5rem, 2vw, 0.8rem);
       --space-sm: clamp(1rem, 3vw, 1.8rem);
       --space-md: clamp(1.8rem, 5vw, 3rem);
       --space-lg: clamp(3rem, 8vw, 5rem);
+      --radius-card: clamp(1.5rem, 4vw, 2rem);
     }
     body { background-color: var(--dk-black); color: var(--text-primary); font-family: var(--font-body); line-height: 1.5; overflow-x: hidden; }
     #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
@@ -42,39 +44,37 @@
     section { padding: var(--space-lg) 0; width: 100%; }
     .full-bleed { margin-left: calc(-1 * var(--space-sm)); margin-right: calc(-1 * var(--space-sm)); padding-left: var(--space-sm); padding-right: var(--space-sm); }
     
-    /* Floating poker icons (during transition) */
-    .floating-poker-icons {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 25; pointer-events: none;
-    }
+    /* Floating poker icons */
+    .floating-poker-icons { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 25; pointer-events: none; }
     .poker-float {
-      position: absolute; background: rgba(255,255,255,0.9); backdrop-filter: blur(8px);
-      border-radius: 40px; padding: 12px 24px; display: flex; align-items: center; gap: 12px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 1px solid rgba(30,136,229,0.3);
-      color: var(--liftoff-slate); font-weight: 600; opacity: 0;
+      position: absolute; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px);
+      border-radius: 60px; padding: 12px 28px; display: flex; align-items: center; gap: 12px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25); border: 1px solid rgba(30,136,229,0.3);
+      color: var(--liftoff-slate); font-weight: 600; opacity: 0; white-space: nowrap;
     }
+    .poker-float i { font-size: 1.5rem; }
     
-    .co-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid rgba(124,255,66,0.15); backdrop-filter: blur(16px); position: sticky; top: 0; z-index: 50; background: rgba(3,5,3,0.6); flex-wrap: wrap; }
-    .logo-group { display: flex; align-items: center; gap: 20px; }
+    .co-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid rgba(124,255,66,0.15); backdrop-filter: blur(16px); position: sticky; top: 0; z-index: 50; background: rgba(3,5,3,0.6); flex-wrap: wrap; gap: 1rem; }
+    .logo-group { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
     .logo-item { display: flex; align-items: center; gap: 8px; }
-    .logo-item img { height: 30px; width: auto; }
-    .nav-links { display: flex; gap: 8px; }
-    .nav-btn { background: transparent; border: none; color: var(--text-muted); padding: 8px 14px; border-radius: 40px; font-weight: 600; cursor: pointer; backdrop-filter: blur(4px); }
+    .logo-item img { height: 28px; width: auto; }
+    .nav-links { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+    .nav-btn { background: transparent; border: none; color: var(--text-muted); padding: 8px 12px; border-radius: 40px; font-weight: 600; cursor: pointer; backdrop-filter: blur(4px); font-size: clamp(0.8rem, 3vw, 0.95rem); }
     .nav-btn:hover { color: white; background: rgba(31,204,74,0.15); }
-    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 28px; border-radius: 60px; font-weight: 700; text-decoration: none; transition: all 0.3s; border: 1px solid transparent; cursor: pointer; }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 28px; border-radius: 60px; font-weight: 700; text-decoration: none; transition: all 0.3s; border: 1px solid transparent; cursor: pointer; font-size: clamp(0.9rem, 3vw, 1rem); }
     .btn-primary { background: var(--dk-green); color: #030503; box-shadow: 0 12px 30px -8px rgba(31,204,74,0.5); }
     .btn-primary:hover { background: #32e05c; transform: scale(1.02); }
     .btn-outline { border: 1.5px solid rgba(255,255,255,0.2); color: white; backdrop-filter: blur(8px); }
     .btn-outline:hover { border-color: var(--liftoff-blue); background: rgba(30,136,229,0.1); }
     .hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--space-lg); align-items: center; }
     .kicker { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.3em; color: var(--dk-glow); margin-bottom: 0.5rem; font-weight: 600; }
-    h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.5rem, 7vw, 4.5rem); line-height: 1.1; }
+    h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1.1; }
     .hero-highlight { background: linear-gradient(145deg, #FFFFFF, #7CFF42); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .stat-pill { background: rgba(10,28,10,0.7); backdrop-filter: blur(8px); padding: 8px 20px; border-radius: 60px; border: 1px solid rgba(31,204,74,0.25); }
-    .media-card { background: rgba(8,20,8,0.6); backdrop-filter: blur(16px); border-radius: 32px; padding: 1.5rem; border: 1px solid rgba(31,204,74,0.25); }
+    .stat-pill { background: rgba(10,28,10,0.7); backdrop-filter: blur(8px); padding: 8px 16px; border-radius: 60px; border: 1px solid rgba(31,204,74,0.25); font-size: 0.9rem; }
+    .media-card { background: rgba(8,20,8,0.6); backdrop-filter: blur(16px); border-radius: var(--radius-card); padding: 1.5rem; border: 1px solid rgba(31,204,74,0.25); }
     .gallery-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
     .gallery-item { aspect-ratio: 4/3; overflow: hidden; border-radius: 20px; }
     .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
-    .gallery-item:hover img { transform: scale(1.05); }
     .venue-rail { display: flex; gap: var(--space-sm); overflow-x: auto; padding: 10px 0 20px; scroll-snap-type: x mandatory; scrollbar-width: none; }
     .venue-card { flex: 0 0 260px; scroll-snap-align: center; background: rgba(8,20,8,0.7); backdrop-filter: blur(12px); border-radius: 28px; padding: 20px; border: 1px solid rgba(31,204,74,0.25); cursor: pointer; transition: all 0.3s; color: white; }
     .venue-card.is-active { border-color: var(--liftoff-blue); box-shadow: 0 0 0 2px rgba(30,136,229,0.3), 0 0 30px rgba(31,204,74,0.3); background: rgba(20,40,20,0.8); }
@@ -89,24 +89,38 @@
     .transition-content { position: relative; z-index: 30; text-align: center; transform: scale(0.9); opacity: 0; transition: all 1.8s; }
     .transition-content.active { opacity: 1; transform: scale(1); }
     .liftoff-brand-panel { background: rgba(255,255,255,0.9); backdrop-filter: blur(24px); border-radius: 48px; padding: 3rem; max-width: 800px; margin: 0 auto; box-shadow: 0 40px 60px -20px rgba(0,0,0,0.3); border: 1px solid rgba(30,136,229,0.3); }
-    .liftoff-brand-panel img { height: 48px; margin-bottom: 1.5rem; }
-    .liftoff-brand-panel h2 { color: var(--liftoff-slate); font-size: 2.5rem; }
+    .liftoff-brand-panel h2 { color: var(--liftoff-slate); font-size: clamp(2rem, 6vw, 2.8rem); }
     .pro-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--space-sm); }
     .pro-card { background: rgba(8,20,8,0.6); backdrop-filter: blur(12px); border-radius: 28px; overflow: hidden; border: 1px solid rgba(31,204,74,0.25); }
     .pro-card img { width: 100%; height: 220px; object-fit: cover; object-position: top; }
     .pro-info { padding: 20px; }
     .timeline-item { display: grid; grid-template-columns: 100px 1fr; padding: var(--space-md) 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
     .timeline-num { font-size: 1.2rem; font-weight: 700; color: var(--liftoff-blue); }
+    /* Darker timeline text */
+    .timeline-text-dark { color: #1a1f2a; text-shadow: 0 2px 8px rgba(255,255,255,0.3); font-weight: 700; }
+    .timeline-item h3, .timeline-item div { color: #1a1f2a; text-shadow: 0 0 10px rgba(255,255,255,0.5); font-weight: 700; }
     .cta-light { background: var(--liftoff-white); border-radius: 48px; padding: var(--space-lg); border: 1px solid var(--liftoff-slate); box-shadow: 0 30px 50px -20px rgba(0,0,0,0.2); color: var(--liftoff-slate); }
     .cta-light .btn-primary { background: var(--liftoff-blue); color: white; box-shadow: 0 12px 20px -8px #1E88E5; }
     .fab-top { position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; border-radius: 30px; background: var(--dk-green); color: black; border: none; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; z-index: 99; opacity: 0; transition: 0.2s; box-shadow: 0 10px 30px #1FCC4A; }
     .fab-top.visible { opacity: 1; }
     .reveal { opacity: 0; transform: translateY(30px); }
-    .flow-heading-light { color: white !important; text-shadow: 0 0 20px rgba(0,0,0,0.5); }
+    .inclusions-list { display: flex; flex-wrap: wrap; gap: 0.8rem 1.5rem; }
+    .inclusions-list span { display: inline-flex; align-items: center; gap: 6px; }
     @media (max-width: 800px) {
       .hero-grid, .venue-panel.is-active, .pro-grid { grid-template-columns: 1fr; }
-      .co-header { justify-content: center; }
-      .timeline-item { grid-template-columns: 80px 1fr; }
+      .timeline-item { grid-template-columns: 1fr; gap: 0.3rem; }
+      .timeline-num { margin-bottom: 0.2rem; }
+      .inclusions-list { flex-direction: column; gap: 0.5rem; }
+    }
+    @media (max-width: 480px) {
+      .co-header { flex-direction: column; }
+      .poker-float { padding: 8px 16px; font-size: 0.8rem; white-space: normal; max-width: 200px; }
+    }
+    @media (max-width: 360px) {
+      .gallery-strip { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (min-width: 260px) {
+      body { min-width: 260px; }
     }
   </style>
 </head>
@@ -118,21 +132,21 @@
     <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e480d52c135a8c8340f29e.svg" alt="Liftoff Rocket">
   </div>
   
-  <!-- Floating poker icons (appear during transition) -->
+  <!-- Floating poker icons (repositioned to avoid overlap) -->
   <div class="floating-poker-icons" id="floatingIcons">
-    <div class="poker-float" id="float1" style="top:20%; left:5%;"><i class="fa-solid fa-rocket" style="color:#F97316;"></i> <span>Accelerate: Scale poker growth</span></div>
-    <div class="poker-float" id="float2" style="top:60%; right:5%;"><i class="fa-solid fa-chart-line" style="color:#1FCC4A;"></i> <span>Monetize: Maximize table earnings</span></div>
-    <div class="poker-float" id="float3" style="bottom:25%; left:15%;"><i class="fa-solid fa-bullseye" style="color:#1E88E5;"></i> <span>Direct: Access premium strategy</span></div>
-    <div class="poker-float" id="float4" style="bottom:40%; right:15%;"><i class="fa-solid fa-database" style="color:#EC4899;"></i> <span>Intelligence: Data‑driven reads</span></div>
+    <div class="poker-float" id="float1" style="top:15%; left:3%;"><i class="fa-solid fa-rocket" style="color:#F97316;"></i> <span>Accelerate: Scale poker growth</span></div>
+    <div class="poker-float" id="float2" style="top:65%; right:3%;"><i class="fa-solid fa-chart-line" style="color:#1FCC4A;"></i> <span>Monetize: Maximize table earnings</span></div>
+    <div class="poker-float" id="float3" style="bottom:20%; left:8%;"><i class="fa-solid fa-bullseye" style="color:#1E88E5;"></i> <span>Direct: Access premium strategy</span></div>
+    <div class="poker-float" id="float4" style="bottom:45%; right:8%;"><i class="fa-solid fa-database" style="color:#EC4899;"></i> <span>Intelligence: Data‑driven reads</span></div>
   </div>
 
   <div class="app">
     <header class="co-header">
       <div class="logo-group">
         <div class="logo-item">
-          <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e44f518696a78b8d05ad20.png" alt="Liftoff.ai" style="height:28px;">
+          <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e44f518696a78b8d05ad20.png" alt="Liftoff.ai">
           <span style="color:white; font-weight:300; margin:0 4px;">+</span>
-          <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e319a28696a78b8dcb4453.webp" alt="DraftKings" style="height:26px;">
+          <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e319a28696a78b8dcb4453.webp" alt="DraftKings">
         </div>
         <span style="color:var(--dk-green); font-weight:800; letter-spacing:2px;">CROWN & CORTEX</span>
       </div>
@@ -154,8 +168,8 @@
           <h1>Where <span class="hero-highlight">AI‑powered growth</span> meets <span class="hero-highlight">competitive edge.</span></h1>
           <p style="font-size:1.2rem; margin:1.2rem 0; color:var(--text-muted);">Liftoff is bringing their client, DraftKings, for an executive poker experience that fuses Cortex‑level precision with the crown of sports betting.</p>
           <div style="display:flex; gap:12px; flex-wrap:wrap; margin:2rem 0;">
-            <span class="stat-pill"><i class="fa-solid fa-microchip"></i> Cortex™ AI mindset</span>
-            <span class="stat-pill"><i class="fa-solid fa-crown" style="color:var(--dk-green);"></i> DraftKings prestige</span>
+            <span class="stat-pill"><i class="fa-solid fa-microchip"></i> Cortex™ AI</span>
+            <span class="stat-pill"><i class="fa-solid fa-crown" style="color:var(--dk-green);"></i> DraftKings</span>
             <span class="stat-pill"><i class="fa-solid fa-champagne-glasses"></i> Premium F&B</span>
           </div>
           <div style="display:flex; gap:15px; flex-wrap:wrap;">
@@ -172,7 +186,6 @@
       </div>
     </section>
 
-    <!-- GALLERY -->
     <section id="gallery" class="full-bleed">
       <div class="reveal"><div class="kicker">experience snapshots</div><h2>Previous LVPT executive events.</h2></div>
       <div class="gallery-strip">
@@ -183,7 +196,6 @@
       </div>
     </section>
 
-    <!-- HAND ANALYSIS (moved below gallery) -->
     <section id="hand-analysis">
       <div class="reveal"><div class="kicker">the core value</div><h2>What is Hand Analysis?</h2></div>
       <div class="media-card" style="font-size:1.3rem; padding:2.5rem;">
@@ -191,7 +203,6 @@
       </div>
     </section>
 
-    <!-- VENUES -->
     <section id="venues" class="full-bleed">
       <div class="reveal"><div class="kicker">click to center & reveal</div><h2>Four environments. One unforgettable arc.</h2></div>
       <div class="venue-rail" id="venueRail">
@@ -202,13 +213,12 @@
       </div>
       <div id="venuePanels">
         <div class="venue-panel is-active" id="panel-venetian"><img src="https://storage.googleapis.com/msgsndr/E2BEbKIK8SvsJICq4vXY/media/693b4f0f5b7f6413a3defc1e.jpg"><div><h3>Venetian: real money gaming</h3><p>Full casino experience with 2 dealers, open bar, taco & antipasto stations, branded guides, and Sprinter transport.</p></div></div>
-        <div class="venue-panel" id="panel-distillery"><img src="https://storage.googleapis.com/msgsndr/NDOgzs7w4I6qjHbRXevV/media/697a5d28b700a2a6f37291b3.jpg"><div><h3>Distillery: private & cocktail‑forward</h3><p>Training only (prizing possible). Includes 3‑hour experience, 2 pros, tables/chips/cards, Sprinter, open bar & apps.</p></div></div>
-        <div class="venue-panel" id="panel-mob"><img src="https://themobmuseum.org/wp-content/uploads/2021/02/TheMobMuseum_PrivateEvent_Distillery-1-1024x683-1.jpg"><div><h3>Mob Museum: cinematic layer</h3><p>Training only (prizing possible). Includes 3‑hour experience, 2 pros, tables/chips/cards, Sprinter, open bar & apps, plus museum tour.</p></div></div>
-        <div class="venue-panel" id="panel-allegiant"><img src="https://storage.googleapis.com/msgsndr/NDOgzs7w4I6qjHbRXevV/media/697a5d28a1d79ed017c023b2.jpg"><div><h3>Allegiant Stadium: ultimate dream</h3><p>Training only. Private NFL room + stadium tour. Includes all standard inclusions.</p></div></div>
+        <div class="venue-panel" id="panel-distillery"><img src="https://storage.googleapis.com/msgsndr/NDOgzs7w4I6qjHbRXevV/media/697a5d28b700a2a6f37291b3.jpg"><div><h3>Distillery: private & cocktail‑forward</h3><p>Training only (prizing possible).</p></div></div>
+        <div class="venue-panel" id="panel-mob"><img src="https://themobmuseum.org/wp-content/uploads/2021/02/TheMobMuseum_PrivateEvent_Distillery-1-1024x683-1.jpg"><div><h3>Mob Museum: cinematic layer</h3><p>Training only (prizing possible). Includes museum tour.</p></div></div>
+        <div class="venue-panel" id="panel-allegiant"><img src="https://storage.googleapis.com/msgsndr/NDOgzs7w4I6qjHbRXevV/media/697a5d28a1d79ed017c023b2.jpg"><div><h3>Allegiant Stadium: ultimate dream</h3><p>Private NFL room + stadium tour.</p></div></div>
       </div>
     </section>
 
-    <!-- PRICING -->
     <section id="pricing">
       <div class="reveal"><div class="kicker">transparent investment</div><h2>Venetian Poker Room · All‑Inclusive</h2></div>
       <div class="venue-pricing-card">
@@ -227,8 +237,14 @@
       </div>
       <div style="margin-top:2rem;">
         <p class="kicker">The following 3 options are training only (real money gaming only in casino). Prizing available.</p>
-        <p style="margin-bottom:1rem;"><i class="fa-solid fa-check" style="color:var(--dk-green);"></i> Each includes: ✓ 3 Hour Experience ✓ 2 World Class Pros ✓ Tables, Chips, Cards & Chairs ✓ Sprinter Van Transportation ✓ Open Bar & Appetizers</p>
-        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1rem;">
+        <div class="inclusions-list" style="margin-bottom:1.5rem;">
+          <span><i class="fa-solid fa-check" style="color:var(--dk-green);"></i> 3 Hour Experience</span>
+          <span><i class="fa-solid fa-check" style="color:var(--dk-green);"></i> 2 World Class Pros</span>
+          <span><i class="fa-solid fa-check" style="color:var(--dk-green);"></i> Tables, Chips, Cards & Chairs</span>
+          <span><i class="fa-solid fa-check" style="color:var(--dk-green);"></i> Sprinter Van Transportation</span>
+          <span><i class="fa-solid fa-check" style="color:var(--dk-green);"></i> Open Bar & Appetizers</span>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:1rem;">
           <div class="media-card"><h4>Las Vegas Distillery</h4><p>$14,100 + tax<br>Private room, spirits tasting, custom beverage.</p></div>
           <div class="media-card"><h4>Mob Museum</h4><p>$15,300 + tax<br>Distillery room + museum tour, custom beverage.</p></div>
           <div class="media-card"><h4>Allegiant Stadium (Dream)</h4><p>$32,200 + tax<br>NFL private room + stadium tour.</p></div>
@@ -240,14 +256,12 @@
     <div class="transition-zone" id="liftoffTransition">
       <div class="transition-content" id="transitionContent">
         <div class="liftoff-brand-panel">
-          <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e44f518696a78b8d05ad20.png" alt="Liftoff.ai">
-          <h2>Liftoff × DraftKings</h2>
-          <p>Cortex‑powered growth meets the ultimate competitive experience.</p>
+          <h2>Ready to Liftoff to your Experience?</h2>
+          <p style="font-size:1.3rem; margin-top:1rem;">Cortex‑powered growth meets the ultimate competitive experience.</p>
         </div>
       </div>
     </div>
 
-    <!-- PROS -->
     <section id="pros">
       <div class="reveal"><div class="kicker">elite instructors</div><h2>World‑class pros.</h2></div>
       <div class="pro-grid">
@@ -258,19 +272,17 @@
       </div>
     </section>
 
-    <!-- FLOW -->
     <section id="flow">
-      <div class="reveal"><div class="kicker">1:00 PM – 4:00 PM</div><h2 class="flow-heading-light">Executive flow, mixed‑skill friendly.</h2></div>
+      <div class="reveal"><div class="kicker">1:00 PM – 4:00 PM</div><h2 style="color:#1a1f2a; text-shadow:0 0 15px white;">Executive flow, mixed‑skill friendly.</h2></div>
       <div class="timeline">
-        <div class="timeline-item"><span class="timeline-num">1:00–1:10 PM</span><div><h3>Get drinks / Get Ready!</h3></div></div>
-        <div class="timeline-item"><span class="timeline-num">1:10–2:20 PM</span><div><h3>Hand Analysis with Pros</h3></div></div>
-        <div class="timeline-item"><span class="timeline-num">2:20–2:30 PM</span><div><h3>Break</h3></div></div>
-        <div class="timeline-item"><span class="timeline-num">2:30–3:50 PM</span><div><h3>Sit & Go / 2 tables combine at 9‑handed</h3></div></div>
-        <div class="timeline-item"><span class="timeline-num">3:50–4:00 PM</span><div><h3>Wrap it up / Handshakes & High Fives</h3></div></div>
+        <div class="timeline-item"><span class="timeline-num">1:00–1:10 PM</span><div><h3 style="color:#1a1f2a; text-shadow:0 0 12px white;">Get drinks / Get Ready!</h3></div></div>
+        <div class="timeline-item"><span class="timeline-num">1:10–2:20 PM</span><div><h3 style="color:#1a1f2a; text-shadow:0 0 12px white;">Hand Analysis with Pros</h3></div></div>
+        <div class="timeline-item"><span class="timeline-num">2:20–2:30 PM</span><div><h3 style="color:#1a1f2a; text-shadow:0 0 12px white;">Break</h3></div></div>
+        <div class="timeline-item"><span class="timeline-num">2:30–3:50 PM</span><div><h3 style="color:#1a1f2a; text-shadow:0 0 12px white;">Sit & Go / 2 tables combine at 9‑handed</h3></div></div>
+        <div class="timeline-item"><span class="timeline-num">3:50–4:00 PM</span><div><h3 style="color:#1a1f2a; text-shadow:0 0 12px white;">Wrap it up / Handshakes & High Fives</h3></div></div>
       </div>
     </section>
 
-    <!-- CTA -->
     <section id="cta">
       <div class="cta-light reveal">
         <h2 style="color:var(--liftoff-slate);">Approve the Liftoff + DraftKings experience.</h2>
@@ -278,8 +290,8 @@
         <div style="background:rgba(0,0,0,0.03); border-radius:24px; padding:1.5rem; margin:2rem 0;">
           <h3 style="color:var(--liftoff-slate);">Next Steps</h3>
           <ul style="list-style:none; text-align:left; max-width:500px; margin:1rem auto;">
-            <li><i class="fa-regular fa-circle-check" style="color:var(--liftoff-blue);"></i> Confirm venue & F&B preferences</li>
-            <li><i class="fa-regular fa-circle-check" style="color:var(--liftoff-blue);"></i> 50% deposit invoice secures date & talent</li>
+            <li><i class="fa-regular fa-circle-check" style="color:var(--liftoff-blue);"></i> Confirm Experience & Options</li>
+            <li><i class="fa-regular fa-circle-check" style="color:var(--liftoff-blue);"></i> Receive click‑to‑pay invoice</li>
             <li><i class="fa-regular fa-circle-check" style="color:var(--liftoff-blue);"></i> Final headcount & dietary notes 14 days prior</li>
             <li><i class="fa-regular fa-circle-check" style="color:var(--liftoff-blue);"></i> Show up, enjoy, we handle every detail</li>
           </ul>
@@ -298,7 +310,7 @@
   <script>
     (function(){
       "use strict";
-      // THREE.JS: WHITE DK LOGO + GREEN PARTICLES (space effect)
+      // THREE.JS: WHITE DK LOGO + GREEN PARTICLES
       const canvas = document.getElementById('bg-canvas');
       if (canvas && window.THREE) {
         const scene = new THREE.Scene();
@@ -316,7 +328,6 @@
         logoMesh.rotation.x = 0.4; logoMesh.rotation.y = 0.8;
         scene.add(logoMesh);
         
-        // Green particles (space effect)
         const particlesGeo = new THREE.BufferGeometry();
         const count = 600;
         const positions = new Float32Array(count * 3);
@@ -349,7 +360,7 @@
         animate();
       }
 
-      // GSAP + SCROLLTRIGGER
+      // GSAP + SCROLLTRIGGER (ROCKET CONTINUES UP UNTIL OFF SCREEN)
       if (window.gsap && window.ScrollTrigger) {
         gsap.registerPlugin(ScrollTrigger);
         gsap.utils.toArray('.reveal').forEach(el => {
@@ -371,19 +382,19 @@
           ScrollTrigger.create({
             trigger: '#liftoffTransition',
             start: 'top 80%',
-            end: 'bottom top', // continue until bottom of page reaches top
+            end: 'bottom top', 
             scrub: 1.2,
             onEnter: () => { transitionBg.classList.add('active'); transitionContent.classList.add('active'); },
             onLeaveBack: () => { transitionBg.classList.remove('active'); transitionContent.classList.remove('active'); },
             onUpdate: (self) => {
               const progress = self.progress;
+              // rocket moves upward beyond 0% (negative y) so it eventually leaves top of viewport
               gsap.to(rocket, {
-                y: `${120 - progress * 150}%`, // moves up beyond 0% as progress exceeds 1
-                scale: 0.8 + progress * 0.9,
-                opacity: Math.min(progress * 1.5, 1),
+                y: `${120 - progress * 200}%`,
+                scale: 0.8 + progress * 1.0,
+                opacity: Math.min(progress * 1.8, 1.2),
                 duration: 0.1, overwrite: true
               });
-              // floating poker icons fade in/out
               const fadeProgress = Math.min(progress * 2, 1);
               gsap.to(float1, { opacity: fadeProgress * 0.9, scale: 0.9 + fadeProgress*0.2, duration:0.1 });
               gsap.to(float2, { opacity: fadeProgress * 0.8, scale: 0.9 + fadeProgress*0.2, duration:0.1 });
