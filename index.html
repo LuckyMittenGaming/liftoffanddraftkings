@@ -54,6 +54,7 @@
     }
     .poker-float i { font-size: 1.5rem; }
     
+    /* Desktop header */
     .co-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid rgba(124,255,66,0.15); backdrop-filter: blur(16px); position: sticky; top: 0; z-index: 50; background: rgba(3,5,3,0.6); flex-wrap: wrap; gap: 1rem; }
     .logo-group { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
     .logo-item { display: flex; align-items: center; gap: 8px; }
@@ -61,6 +62,11 @@
     .nav-links { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
     .nav-btn { background: transparent; border: none; color: var(--text-muted); padding: 8px 12px; border-radius: 40px; font-weight: 600; cursor: pointer; backdrop-filter: blur(4px); font-size: clamp(0.8rem, 3vw, 0.95rem); }
     .nav-btn:hover { color: white; background: rgba(31,204,74,0.15); }
+    
+    /* Mobile floating menu */
+    .mobile-nav { display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; z-index: 100; background: rgba(3,5,3,0.8); backdrop-filter: blur(20px); border-radius: 60px; padding: 12px 20px; border: 1px solid rgba(31,204,74,0.4); justify-content: space-around; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+    .mobile-nav-btn { background: none; border: none; color: white; font-size: 1.4rem; padding: 8px; }
+    
     .btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 28px; border-radius: 60px; font-weight: 700; text-decoration: none; transition: all 0.3s; border: 1px solid transparent; cursor: pointer; font-size: clamp(0.9rem, 3vw, 1rem); }
     .btn-primary { background: var(--dk-green); color: #030503; box-shadow: 0 12px 30px -8px rgba(31,204,74,0.5); }
     .btn-primary:hover { background: #32e05c; transform: scale(1.02); }
@@ -86,16 +92,15 @@
     .pricing-table td { padding: 0.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
     .venue-pricing-card { background: rgba(8,20,8,0.6); backdrop-filter: blur(12px); border-radius: 28px; padding: 2rem; border: 1px solid rgba(31,204,74,0.25); }
     .transition-zone { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; overflow: hidden; z-index: 25; }
-    .transition-content { position: relative; z-index: 30; text-align: center; transform: scale(0.9); opacity: 0; transition: all 1.8s; }
+    .transition-content { position: relative; z-index: 30; text-align: center; transform: scale(0.9); opacity: 0; transition: all 1.8s; width: 100%; padding: 1rem; }
     .transition-content.active { opacity: 1; transform: scale(1); }
-    .liftoff-brand-panel { background: rgba(255,255,255,0.9); backdrop-filter: blur(24px); border-radius: 48px; padding: 3rem; max-width: 800px; margin: 0 auto; box-shadow: 0 40px 60px -20px rgba(0,0,0,0.3); border: 1px solid rgba(30,136,229,0.3); }
-    .liftoff-brand-panel h2 { color: var(--liftoff-slate); font-size: clamp(2rem, 6vw, 2.8rem); }
+    .liftoff-brand-panel { background: rgba(255,255,255,0.9); backdrop-filter: blur(24px); border-radius: 48px; padding: 3rem; max-width: 800px; margin: 0 auto; box-shadow: 0 40px 60px -20px rgba(0,0,0,0.3); border: 1px solid rgba(30,136,229,0.3); display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 300px; }
+    .liftoff-brand-panel h2 { color: var(--liftoff-slate); font-size: clamp(2rem, 6vw, 2.8rem); text-align: center; }
     .pro-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--space-sm); }
     .pro-card { background: rgba(8,20,8,0.6); backdrop-filter: blur(12px); border-radius: 28px; overflow: hidden; border: 1px solid rgba(31,204,74,0.25); }
     .pro-card img { width: 100%; height: 220px; object-fit: cover; object-position: top; }
     .pro-info { padding: 20px; }
     
-    /* Timeline centered with dark background on desktop */
     .timeline-wrapper {
       background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
       border-radius: 48px; padding: var(--space-md) var(--space-lg);
@@ -112,21 +117,37 @@
     .reveal { opacity: 0; transform: translateY(30px); }
     .inclusions-list { display: flex; flex-wrap: wrap; gap: 0.8rem 1.5rem; }
     .inclusions-list span { display: inline-flex; align-items: center; gap: 6px; }
+    
+    /* Mobile overrides */
     @media (max-width: 800px) {
+      .co-header { display: none; }
+      .mobile-nav { display: flex; }
       .hero-grid, .venue-panel.is-active, .pro-grid { grid-template-columns: 1fr; }
       .timeline-item { grid-template-columns: 1fr; gap: 0.3rem; }
       .timeline-num { margin-bottom: 0.2rem; }
       .inclusions-list { flex-direction: column; gap: 0.5rem; }
       .timeline-wrapper { padding: var(--space-sm); }
-    }
-    @media (max-width: 480px) {
-      .co-header { flex-direction: column; }
-      .poker-float { padding: 8px 16px; font-size: 0.8rem; white-space: normal; max-width: 200px; }
+      .gallery-strip { grid-template-columns: 1fr; gap: 15px; }
+      .gallery-item { aspect-ratio: 16/9; }
+      .poker-float { white-space: normal; max-width: 200px; padding: 10px 18px; font-size: 0.85rem; }
+      /* Darkened filter behind all text on mobile */
+      h1, h2, h3, p, .kicker, .stat-pill, .timeline-item h3, .timeline-item div, .btn, .venue-card, .media-card {
+        text-shadow: 0 2px 12px rgba(0,0,0,0.7);
+      }
+      .media-card, .venue-card, .venue-pricing-card, .timeline-wrapper, .liftoff-brand-panel {
+        background: rgba(0,0,0,0.5) !important;
+        backdrop-filter: blur(12px);
+      }
+      .liftoff-brand-panel h2 { font-size: 1.8rem; }
+      .floating-poker-icons .poker-float { max-width: 180px; }
+      /* Adjust float positions for mobile to avoid overlap */
+      #float1 { top: 12% !important; left: 2% !important; }
+      #float2 { top: 35% !important; right: 2% !important; }
+      #float3 { bottom: 30% !important; left: 2% !important; }
+      #float4 { bottom: 12% !important; right: 2% !important; }
     }
     @media (min-width: 801px) {
-      .timeline-wrapper {
-        box-shadow: 0 0 40px rgba(0,0,0,0.5);
-      }
+      .mobile-nav { display: none; }
     }
   </style>
 </head>
@@ -138,12 +159,22 @@
     <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e480d52c135a8c8340f29e.svg" alt="Liftoff Rocket">
   </div>
   
-  <!-- Floating poker icons (evenly spaced, staggered timing) -->
+  <!-- Floating poker icons -->
   <div class="floating-poker-icons" id="floatingIcons">
     <div class="poker-float" id="float1" style="top:15%; left:5%;"><i class="fa-solid fa-rocket" style="color:#F97316;"></i> <span>Accelerate: Scale poker growth</span></div>
     <div class="poker-float" id="float2" style="top:65%; right:5%;"><i class="fa-solid fa-chart-line" style="color:#1FCC4A;"></i> <span>Monetize: Maximize table earnings</span></div>
     <div class="poker-float" id="float3" style="bottom:20%; left:8%;"><i class="fa-solid fa-bullseye" style="color:#1E88E5;"></i> <span>Direct: Access premium strategy</span></div>
     <div class="poker-float" id="float4" style="bottom:45%; right:8%;"><i class="fa-solid fa-database" style="color:#EC4899;"></i> <span>Intelligence: Data‑driven reads</span></div>
+  </div>
+
+  <!-- Mobile floating menu -->
+  <div class="mobile-nav">
+    <button class="mobile-nav-btn" data-scroll="hero"><i class="fa-solid fa-house"></i></button>
+    <button class="mobile-nav-btn" data-scroll="gallery"><i class="fa-solid fa-image"></i></button>
+    <button class="mobile-nav-btn" data-scroll="venues"><i class="fa-solid fa-location-dot"></i></button>
+    <button class="mobile-nav-btn" data-scroll="pricing"><i class="fa-solid fa-tag"></i></button>
+    <button class="mobile-nav-btn" data-scroll="flow"><i class="fa-solid fa-clock"></i></button>
+    <button class="mobile-nav-btn" data-scroll="cta"><i class="fa-solid fa-check"></i></button>
   </div>
 
   <div class="app">
@@ -183,7 +214,7 @@
             <a href="#cta" class="btn btn-outline" data-scroll="cta"><i class="fa-regular fa-star"></i> Approve build</a>
           </div>
         </div>
-        <div class="reveal">
+        <div class="reveal" id="heroMedia">
           <div class="media-card">
             <img src="https://storage.googleapis.com/msgsndr/E2BEbKIK8SvsJICq4vXY/media/693b4f0f53781fe90d3419f1.webp" style="border-radius:20px; width:100%;">
             <h3 style="margin-top:1rem;">Liftoff powers the app economy. DraftKings fuels the competitive spirit.</h3>
@@ -269,7 +300,7 @@
     </div>
 
     <section id="pros">
-      <div class="reveal"><div class="kicker">elite instructors</div><h2>World‑class pros.</h2></div>
+      <div class="reveal"><div class="kicker">elite instructors</div><h2>Some of our Elite Instructors</h2></div>
       <div class="pro-grid">
         <div class="pro-card"><img src="https://www.gamblinginsider.com/img/news/kenna-james-ape-in-poker-partnership.jpg"><div class="pro-info"><h3>Kenna James</h3><p>20+ yr Veteran · $4.2M+</p></div></div>
         <div class="pro-card"><img src="https://www.seminolehardrockpokeropen.com/wp-content/uploads/2022/01/2022-LHPO-Jeff-Madsen.jpg"><div class="pro-info"><h3>Jeff Madsen</h3><p>4 WSOP Bracelets · $7M+</p></div></div>
@@ -300,6 +331,7 @@
           <ul style="list-style:none; text-align:left; max-width:500px; margin:1rem auto;">
             <li><i class="fa-regular fa-circle-check" style="color:var(--liftoff-blue);"></i> Confirm Experience & Options</li>
             <li><i class="fa-regular fa-circle-check" style="color:var(--liftoff-blue);"></i> Receive click‑to‑pay invoice</li>
+            <li><i class="fa-regular fa-circle-check" style="color:var(--liftoff-blue);"></i> Invoice payment = Date and experience locked in!</li>
             <li><i class="fa-regular fa-circle-check" style="color:var(--liftoff-blue);"></i> Final headcount & dietary notes 14 days prior</li>
             <li><i class="fa-regular fa-circle-check" style="color:var(--liftoff-blue);"></i> Show up, enjoy, we handle every detail</li>
           </ul>
@@ -318,26 +350,29 @@
   <script>
     (function(){
       "use strict";
-      // THREE.JS: WHITE DK LOGO + GREEN PARTICLES
+      // THREE.JS: WHITE DK LOGO (HALF SIZE) + PARTICLES — starts animation only after hero media trigger
       const canvas = document.getElementById('bg-canvas');
+      let logoMesh, particles;
+      let logoActive = false;
       if (canvas && window.THREE) {
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
-        camera.position.z = 15;
+        camera.position.z = 20;
         const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
         
         const textureLoader = new THREE.TextureLoader();
         const dkLogoTexture = textureLoader.load('https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69e319a28696a78b8dcb4453.webp');
-        const geometry = new THREE.CylinderGeometry(4.5, 4.5, 0.2, 64);
+        const geometry = new THREE.CylinderGeometry(2.5, 2.5, 0.15, 64); // half size
         const material = new THREE.MeshStandardMaterial({ map: dkLogoTexture, transparent: true, roughness: 0.4, metalness: 0.05, emissive: new THREE.Color(0xffffff), emissiveIntensity: 0.1 });
-        const logoMesh = new THREE.Mesh(geometry, material);
+        logoMesh = new THREE.Mesh(geometry, material);
         logoMesh.rotation.x = 0.4; logoMesh.rotation.y = 0.8;
+        logoMesh.visible = false;
         scene.add(logoMesh);
         
         const particlesGeo = new THREE.BufferGeometry();
-        const count = 600;
+        const count = 400;
         const positions = new Float32Array(count * 3);
         for (let i=0; i<count*3; i+=3) {
           positions[i] = (Math.random()-0.5)*30;
@@ -346,7 +381,8 @@
         }
         particlesGeo.setAttribute('position', new THREE.BufferAttribute(positions,3));
         const particlesMat = new THREE.PointsMaterial({color:0x7CFF42, size:0.03, transparent:true, opacity:0.4});
-        const particles = new THREE.Points(particlesGeo, particlesMat);
+        particles = new THREE.Points(particlesGeo, particlesMat);
+        particles.visible = false;
         scene.add(particles);
         
         const ambient = new THREE.AmbientLight(0xffffff, 0.6);
@@ -361,18 +397,28 @@
         window.addEventListener('resize', resize);
         function animate() {
           requestAnimationFrame(animate);
-          logoMesh.rotation.y += 0.002;
-          particles.rotation.y += 0.0003;
+          if (logoActive && logoMesh) {
+            logoMesh.rotation.y += 0.002;
+            if (particles) particles.rotation.y += 0.0003;
+          }
           renderer.render(scene, camera);
         }
         animate();
       }
 
-      // GSAP + SCROLLTRIGGER (STAGGERED FLOATS)
+      // GSAP + SCROLLTRIGGER
       if (window.gsap && window.ScrollTrigger) {
         gsap.registerPlugin(ScrollTrigger);
         gsap.utils.toArray('.reveal').forEach(el => {
           gsap.fromTo(el, {y:42, opacity:0}, {y:0, opacity:1, duration:0.9, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 85%'}});
+        });
+        
+        // Activate logo when hero media appears
+        ScrollTrigger.create({
+          trigger: '#heroMedia',
+          start: 'top 80%',
+          onEnter: () => { if(logoMesh) logoMesh.visible = true; if(particles) particles.visible = true; logoActive = true; },
+          onLeaveBack: () => { if(logoMesh) logoMesh.visible = false; if(particles) particles.visible = false; logoActive = false; }
         });
         
         const rocket = document.getElementById('parallaxRocket');
@@ -402,14 +448,11 @@
                 opacity: Math.min(progress * 1.8, 1.2),
                 duration: 0.1, overwrite: true
               });
-              
-              // Staggered fade-in for floats
               const p = progress;
               const fade1 = Math.min(p * 2.5, 1);
               const fade2 = Math.min(Math.max(0, (p-0.15)*2.5), 1);
               const fade3 = Math.min(Math.max(0, (p-0.3)*2.5), 1);
               const fade4 = Math.min(Math.max(0, (p-0.45)*2.5), 1);
-              
               gsap.to(float1, { opacity: fade1*0.9, scale: 0.9+fade1*0.2, duration:0.1 });
               gsap.to(float2, { opacity: fade2*0.9, scale: 0.9+fade2*0.2, duration:0.1 });
               gsap.to(float3, { opacity: fade3*0.9, scale: 0.9+fade3*0.2, duration:0.1 });
